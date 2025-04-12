@@ -40,14 +40,6 @@ nodes:
               gateway: ${GATEWAY}
           vip:
             ip: ${VIP}
-      schematic:
-        customization:
-          systemExtensions:
-            officialExtensions:
-              - siderolabs/nonfree-kmod-nvidia-lts
-              - siderolabs/nvidia-container-toolkit-lts
-      patches:
-        - "@./patches/nvidia.yaml"
 controlPlane:
     patches:
         - '@./patches/controlplane.yaml'
