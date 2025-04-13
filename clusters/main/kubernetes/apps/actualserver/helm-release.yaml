@@ -1,0 +1,56 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: actualserver
+  namespace: actualserver
+spec:
+  interval: 5m
+  chart:
+    spec:
+      # renovate: registryUrl=https://charts.truechartsoci.org
+      chart: actualserver
+      version: 13.4.0
+      sourceRef:
+        kind: HelmRepository
+        name: truecharts
+        namespace: flux-system
+      interval: 5m
+  install:
+    createNamespace: true
+    crds: CreateReplace
+    remediation:
+      retries: 3
+  upgrade:
+    crds: CreateReplace
+    remediation:
+      retries: 3
+  values:
+    global:
+      stopAll: false
+    credentials:
+      cloudflare:
+        type: s3
+        url: "${CLOUDFLARE_BUCKET_URL}"
+        bucket: "actualserver"
+        accessKey: "${CLOUDFLARE_BUCKET_ACCESS_KEY}"
+        secretKey: "${CLOUDFLARE_BUCKET_SECRET_KEY}"
+        encrKey: "${CLOUDFLARE_BUCKET_ENCR_KEY}"
+    ingress:
+      main:
+        enabled: true
+        ingressClassName: internal
+        integrations:
+          traefik:
+            enabled: false
+          certManager:
+            enabled: true
+            certificateIssuer: domain-0-le-prod
+          homepage:
+            enabled: true
+            group: Finances
+            name: Actual
+        hosts:
+          - host: actual.${DOMAIN_0}
+            paths:
+              - path: /
+                pathType: Prefix

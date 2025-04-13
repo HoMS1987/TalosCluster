@@ -17,3 +17,9 @@ do this for faster adding changes from git repository
 ``` console
 flux reconcile source git cluster -n flux-system
 ```
+
+## Reboot Talos
+
+``` console
+talosctl reboot
+```
