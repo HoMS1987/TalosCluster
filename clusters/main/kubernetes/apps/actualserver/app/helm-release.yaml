@@ -49,6 +49,8 @@ spec:
             enabled: true
             group: Finances
             name: Actual
+            widget:
+              enabled: false
         hosts:
           - host: actual.${DOMAIN_0}
             paths:
