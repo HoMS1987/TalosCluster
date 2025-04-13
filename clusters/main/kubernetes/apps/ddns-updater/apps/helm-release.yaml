@@ -55,11 +55,10 @@ spec:
         - provider: cloudflare
           zone_identifier: "${DDNS_UPDATER_ZONE_IDENTIFIER}"
           domain: "${DOMAIN_0}"
-          host: "@"
-          proxied; false
           ttl: 600
           token: "${DDNS_UPDATER_TOKEN}"
           ip_version: ipv4
+          ipv6_suffix: ""
     workload:
       main:
         podSpec:
