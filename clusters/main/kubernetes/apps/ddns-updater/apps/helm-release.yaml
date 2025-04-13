@@ -50,18 +50,19 @@ spec:
             paths:
               - path: /
                 pathType: Prefix
-    persistence:
-      data:
-        volsync:
-        - name: app-data
-          type: restic
-          credentials: cloudflare
-          dest:
-            enabled: true
+    config:
+      settings:
+        - provider: cloudflare
+          zone_identifier: "${DDNS_UPDATER_ZONE_IDENTIFIER}"
+          domain: "${DOMAIN_0}"
+          ttl: 600
+          token: "${DDNS_UPDATER_TOKEN}"
+          ip_version: ipv4
+          ipv6_suffix: ""
     workload:
       main:
         podSpec:
           containers:
             main:
               env:
-                CONFIG: ${DDNS_UPDATER_CONFIG}
+                CONFIG: "{{ .Values.config | toJson }}"
