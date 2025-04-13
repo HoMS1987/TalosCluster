@@ -7,5 +7,4 @@ resources:
   - ddns-updater
   - grafana/ks.yaml
   - homepage
-  - plex
   - plex/ks.yaml
