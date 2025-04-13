@@ -1,0 +1,102 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: plex
+  namespace: plex
+spec:
+  interval: 5m
+  chart:
+    spec:
+      # renovate: registryUrl=https://charts.truechartsoci.org
+      chart: plex
+      version: 18.0.12
+      sourceRef:
+        kind: HelmRepository
+        name: truecharts
+        namespace: flux-system
+      interval: 5m
+  install:
+    createNamespace: true
+    crds: CreateReplace
+    remediation:
+      retries: 3
+  upgrade:
+    crds: CreateReplace
+    remediation:
+      retries: 3
+  values:
+    global:
+      stopAll: false
+    credentials:
+      cloudflare:
+        type: s3
+        url: "${CLOUDFLARE_BUCKET_URL}"
+        bucket: "plex"
+        accessKey: "${CLOUDFLARE_BUCKET_ACCESS_KEY}"
+        secretKey: "${CLOUDFLARE_BUCKET_SECRET_KEY}"
+        encrKey: "${CLOUDFLARE_BUCKET_ENCR_KEY}"
+    ingress:
+      main:
+        enabled: true
+        ingressClassName: external
+        integrations:
+          traefik:
+            enabled: false
+          certManager:
+            enabled: true
+            certificateIssuer: domain-0-le-prod
+          homepage:
+            enabled: true
+            group: Media
+            name: Plex
+            widget:
+              enabled: true
+              custom:
+                key: ${PLEX_HOMEPAGE_KEY}
+        hosts:
+          - host: plex.${DOMAIN_0}
+            paths:
+              - path: /
+                pathType: Prefix
+    persistence:
+      config:
+        volsync:
+        - name: app-config
+          type: restic
+          credentials: cloudflare
+          dest:
+            enabled: true
+          src:
+            enabled: false
+      movies:
+        enabled: true
+        type: nfs
+        path: /mnt/MAIN/Movies
+        mountPath: /media/Movies
+        server: ${TRUENAS_IP}
+      series:
+        enabled: true
+        type: nfs
+        path: /mnt/MAIN/Series
+        mountPath: /media/Series
+        server: ${TRUENAS_IP}
+      series:
+        enabled: true
+        type: nfs
+        path: /mnt/MAIN/Music
+        mountPath: /media/Music
+        server: ${TRUENAS_IP}
+    plex:
+      serverIP: ${NGINX_EXTERNAL_IP}
+      requireHTTPS: false
+    workload:
+      main:
+        podSpec:
+          runtimeClassName: "nvidia"
+          containers:
+            main:
+              env:
+                ALLOWED_NETWORKS: 172.16.0.0/12,10.0.0.0/8,192.168.0.0/16,192.168.2.0/16
+              resources:
+                limits:
+                  nvidia.com/gpu: 1
