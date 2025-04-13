@@ -3,4 +3,5 @@ kind: Kustomization
 resources:
   - kubernetes-dashboard/ks.yaml
   - actualserver/ks.yaml
+  - freshrss/ks.yaml
   - ddns-updater
