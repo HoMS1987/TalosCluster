@@ -31,12 +31,16 @@ spec:
     plex:
       # User Defined
       serverIP: ${PLEX_IP}
+      # additionalAdvertiseURL: "http://${PLEX_IP}:32400,https://${PLEX_IP}:32400,https://${NGINX_EXTERNAL_IP}:443,https://${NGINX_EXTERNAL_IP}:32400"
       disableGDM: true
-      requireHTTPS: false
+      requireHTTPS: false             # First Deploy set to false, till remote acces is configured and working then you can set to true
     service:
       main:
         type: LoadBalancer
         loadBalancerIP: ${PLEX_IP}
+        ports:
+          main:
+            port: 32400
     global:
       stopAll: false
     credentials:
@@ -101,7 +105,7 @@ spec:
     workload:
       main:
         podSpec:
-          runtimeClassName: "nvidia"
+          runtimeClassName: nvidia
           containers:
             main:
               env:
