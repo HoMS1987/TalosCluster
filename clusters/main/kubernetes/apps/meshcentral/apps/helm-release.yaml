@@ -40,10 +40,10 @@ spec:
         mode: recovery
         backups:
           enabled: true
-          revision: ""
+          revision: "1"
           credentials: cloudflare
         recovery:
-          revision: "1"
+          revision: ""
           credentials: cloudflare
     ingress:
       main:
