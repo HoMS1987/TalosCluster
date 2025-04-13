@@ -6,3 +6,4 @@ resources:
   - freshrss/ks.yaml
   - ddns-updater
   - grafana/ks.yaml
+  - homepage
