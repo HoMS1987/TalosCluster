@@ -42,6 +42,13 @@ spec:
             paths:
               - path: /
                 pathType: Prefix
+    workload:
+      main:
+        podSpec:
+          containers:
+            main:
+              env:
+                HOMEPAGE_ALLOWED_HOSTS: ${DOMAIN_0}
     persistence:
       config:
         path: /mnt/MAIN/homepage-config
