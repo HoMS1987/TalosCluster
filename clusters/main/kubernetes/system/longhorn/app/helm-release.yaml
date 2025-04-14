@@ -35,3 +35,5 @@ spec:
       defaultClass: true
       # Increase to 3 for a multi-node cluster
       defaultClassReplicaCount: 1
+    longhornUI:
+      replicas: 1
