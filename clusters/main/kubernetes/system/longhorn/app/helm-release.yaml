@@ -29,7 +29,13 @@ spec:
       defaultReplicaCount: 1
       # Overprovisioning might be needed when using volsync
       storageOverProvisioningPercentage: 100000
+      storageReservedPercentageForDefaultDisk: 10
       # v2DataEngine: true
+    csi:
+      attacherReplicaCount: 1
+      provisionerReplicaCount: 1
+      resizerReplicaCount: 1
+      snapshotterReplicaCount: 1
     persistence:
       # Set to false to pick another CSI as default
       defaultClass: true
@@ -37,3 +43,7 @@ spec:
       defaultClassReplicaCount: 1
     longhornUI:
       replicas: 1
+    service:
+      ui:
+        type: LoadBalancer
+        loadBalancerIP: ${LONGHORN_IP}
