@@ -7,4 +7,5 @@ resources:
   - ddns-updater
   - grafana/ks.yaml
   - homepage
+  - meshcentral/ks.yaml
   - nextcloud/ks.yaml
