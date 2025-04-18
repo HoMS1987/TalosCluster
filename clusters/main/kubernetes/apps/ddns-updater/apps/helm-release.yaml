@@ -31,7 +31,7 @@ spec:
       cloudflare:
         type: s3
         url: "${CLOUDFLARE_BUCKET_URL}"
-        bucket: "actualserver"
+        bucket: "ddns-updater"
         accessKey: "${CLOUDFLARE_BUCKET_ACCESS_KEY}"
         secretKey: "${CLOUDFLARE_BUCKET_SECRET_KEY}"
         encrKey: "${CLOUDFLARE_BUCKET_ENCR_KEY}"
@@ -66,3 +66,13 @@ spec:
             main:
               env:
                 CONFIG: "{{ .Values.config | toJson }}"
+    persistence:
+      data:
+        volsync:
+        - name: data
+          type: restic
+          credentials: cloudflare
+          dest:
+            enabled: false
+          src:
+            enabled: true
