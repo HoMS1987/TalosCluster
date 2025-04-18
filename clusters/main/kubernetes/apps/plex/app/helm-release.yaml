@@ -76,13 +76,15 @@ spec:
     persistence:
       config:
         volsync:
-        - name: app-config
+        - name: config
           type: restic
           credentials: cloudflare
           dest:
+            cacheCapacity: 20Gi
             enabled: false
           src:
-            enabled: false
+            cacheCapacity: 20Gi
+            enabled: true
       movies:
         enabled: true
         type: nfs
