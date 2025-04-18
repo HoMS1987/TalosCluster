@@ -67,7 +67,7 @@ spec:
             widget:
               enabled: false
               custom:
-                key: ${PLEX_HOMEPAGE_KEY}
+                key: ${PLEX_TOKEN}
         hosts:
           - host: plex.${DOMAIN_0}
             paths:
