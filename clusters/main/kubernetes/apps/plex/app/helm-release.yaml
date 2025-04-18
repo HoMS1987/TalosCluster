@@ -65,7 +65,7 @@ spec:
             group: Media
             name: Plex
             widget:
-              enabled: true
+              enabled: false
               custom:
                 key: ${PLEX_HOMEPAGE_KEY}
         hosts:
