@@ -56,3 +56,13 @@ spec:
             paths:
               - path: /
                 pathType: Prefix
+    persistence:
+      data:
+        volsync:
+        - name: data
+          type: restic
+          credentials: cloudflare
+          dest:
+            enabled: true
+          src:
+            enabled: true
