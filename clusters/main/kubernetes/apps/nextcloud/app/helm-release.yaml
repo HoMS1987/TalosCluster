@@ -74,13 +74,13 @@ spec:
     persistence:
       config:
         volsync:
-          - name: app-config
+          - name: config
             type: restic
             credentials: cloudflare
             dest:
-              enabled: true
-            src:
               enabled: false
+            src:
+              enabled: true
       data:
         enabled: true
         type: nfs
@@ -88,13 +88,13 @@ spec:
         server: ${TRUENAS_IP}
       html:
         volsync:
-          - name: app-html
+          - name: html
             type: restic
             credentials: cloudflare
             dest:
-              enabled: true
-            src:
               enabled: false
+            src:
+              enabled: true
     nextcloud:
       collabora:
         enabled: true
