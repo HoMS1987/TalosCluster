@@ -76,3 +76,5 @@ spec:
             enabled: false
           src:
             enabled: true
+            trigger:
+              schedule: 30 1 * * *
