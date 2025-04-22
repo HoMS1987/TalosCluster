@@ -47,6 +47,12 @@ spec:
           enabled: true
           revision: "1"
           credentials: cloudflare
+          scheduledBackups:
+            - name: daily-backup
+              schedule: "0 15 0 * * *"
+              backupOwnerReference: self
+              immediate: true
+              suspend: false
         recovery:
           revision: ""
           credentials: cloudflare
@@ -83,6 +89,8 @@ spec:
               enabled: true
             src:
               enabled: false
+              trigger:
+                schedule: 50 1 * * *
       files:
         volsync:
           - name: files
@@ -92,6 +100,8 @@ spec:
               enabled: true
             src:
               enabled: false
+              trigger:
+                schedule: 0 2 * * *
       web:
         volsync:
           - name: web
@@ -101,6 +111,8 @@ spec:
               enabled: true
             src:
               enabled: false
+              trigger:
+                schedule: 10 2 * * *
       backups:
         volsync:
           - name: backup
@@ -110,6 +122,8 @@ spec:
               enabled: true
             src:
               enabled: false
+              trigger:
+                schedule: 20 2 * * *
     securityContext:
       container:
         UMASK: "0022"
