@@ -68,6 +68,12 @@ spec:
           enabled: true
           credentials: cloudflare
           revision: "1"
+          scheduledBackups:
+            - name: daily-backup
+              schedule: "0 5 0 * * *"
+              backupOwnerReference: self
+              immediate: true
+              suspend: false
         recovery:
           revision: ""
           credentials: cloudflare
@@ -81,6 +87,8 @@ spec:
               enabled: false
             src:
               enabled: true
+              trigger:
+                schedule: 10 1 * * *
       data:
         enabled: true
         type: nfs
@@ -95,6 +103,8 @@ spec:
               enabled: false
             src:
               enabled: true
+              trigger:
+                schedule: 20 1 * * *
     nextcloud:
       collabora:
         enabled: true
