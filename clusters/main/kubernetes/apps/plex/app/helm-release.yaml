@@ -76,7 +76,7 @@ spec:
     persistence:
       config:
         volsync:
-        - name: config
+        - name: config-new
           type: restic
           credentials: cloudflare
           dest:
