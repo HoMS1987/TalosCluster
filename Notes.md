@@ -26,6 +26,12 @@ flux reconcile source git cluster -n flux-system
 talosctl reboot
 ```
 
+### Get Replication Sources
+
+``` console
+kubectl get replicationsource -A
+```
+
 ## Backup Schedule
 
 actualserver
