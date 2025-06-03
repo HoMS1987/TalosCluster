@@ -57,3 +57,6 @@ Nextcloud
 
 plex
 - config 30 2 * * * (täglich 2:30) => für Dauer 30min einplanen
+
+rustdesk
+- data 30 3 * * * (täglich 3:30)

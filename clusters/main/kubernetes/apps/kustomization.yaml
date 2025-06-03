@@ -11,3 +11,4 @@ resources:
   - nextcloud/ks.yaml
   - plex/ks.yaml
   - plex-auto-languages/ks.yaml
+  - rustdesk/ks.yaml
