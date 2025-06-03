@@ -30,7 +30,6 @@ spec:
     plex:
       # User Defined
       serverIP: ${PLEX_IP}
-      additionalAdvertiseURL: "" # <-- configured automaticly
       additionalAdvertiseURL: "http://${PLEX_IP}:32400,https://${PLEX_IP}:32400,https://${NGINX_EXTERNAL_IP}:443,https://${NGINX_EXTERNAL_IP}:32400"
       disableGDM: true
       requireHTTPS: true # First Deploy set to false, till remote acces is configured and working then you can set to true
