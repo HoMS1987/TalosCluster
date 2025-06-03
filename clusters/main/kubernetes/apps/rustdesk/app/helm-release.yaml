@@ -34,6 +34,21 @@ spec:
         accessKey: "${CLOUDFLARE_BUCKET_ACCESS_KEY}"
         secretKey: "${CLOUDFLARE_BUCKET_SECRET_KEY}"
         encrKey: "${CLOUDFLARE_BUCKET_ENCR_KEY}"
+    ingress:
+      main:
+        enabled: true
+        ingressClassName: external
+        integrations:
+          traefik:
+            enabled: false
+          certManager:
+            enabled: true
+            certificateIssuer: domain-0-le-prod
+        hosts:
+          - host: rustdesk.${DOMAIN_0}
+            paths:
+              - path: /
+                pathType: Prefix
     portal:
       open:
         enabled: false
