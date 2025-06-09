@@ -30,8 +30,8 @@ spec:
     plex:
       # User Defined
       serverIP: ${PLEX_IP}
-      additionalAdvertiseURL: "http://${PLEX_IP}:32400,https://${PLEX_IP}:32400,https://${NGINX_EXTERNAL_IP}:443,https://${NGINX_EXTERNAL_IP}:32400"
-      disableGDM: true
+      # additionalAdvertiseURL: "http://${PLEX_IP}:32400,https://${PLEX_IP}:32400,https://${NGINX_EXTERNAL_IP}:443,https://${NGINX_EXTERNAL_IP}:32400"
+      # disableGDM: true
       requireHTTPS: true # First Deploy set to false, till remote acces is configured and working then you can set to true
     service:
       main:
@@ -106,8 +106,8 @@ spec:
           runtimeClassName: nvidia
           containers:
             main:
-              env:
-                ALLOWED_NETWORKS: 172.16.0.0/12,10.0.0.0/8,192.168.0.0/16,192.168.2.0/16
+              # env:
+                # ALLOWED_NETWORKS: 172.16.0.0/12,10.0.0.0/8,192.168.0.0/16,192.168.2.0/16
               resources:
                 limits:
                   nvidia.com/gpu: 1
