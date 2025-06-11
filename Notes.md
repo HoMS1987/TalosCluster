@@ -34,6 +34,12 @@ kubectl get replicationsource -A
 
 ## Backup Schedule
 
+snapshot-delete 0 0 * * * (täglich 0:00)
+
+snapshot-cleanup 20 0 * * * (täglich 0:20)
+
+trim 40 0 * * * (täglich 0:40)
+
 actualserver
 - data 0 1 * * * (täglich 1:00)
 
