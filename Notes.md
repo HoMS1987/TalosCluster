@@ -66,3 +66,6 @@ plex
 
 rustdesk
 - data 30 3 * * * (täglich 3:30)
+
+photoprism
+- storage 40 3 * * * (täglich 3:40)
