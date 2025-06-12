@@ -12,4 +12,4 @@ resources:
   - plex/ks.yaml
   - plex-auto-languages/ks.yaml
   - rustdesk/ks.yaml
-#  - photoprism/ks.yaml
+  - photoprism/ks.yaml

@@ -68,7 +68,7 @@ spec:
     persistence:
       storage:
         volsync:
-        - name: app
+        - name: storage
           type: restic
           credentials: cloudflare
           dest:
