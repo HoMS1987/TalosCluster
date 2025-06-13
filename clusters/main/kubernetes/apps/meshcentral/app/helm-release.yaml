@@ -124,8 +124,3 @@ spec:
               enabled: false
               trigger:
                 schedule: 20 2 * * *
-    securityContext:
-      container:
-        UMASK: "0022"
-      pod:
-        fsGroupChangePolicy: OnRootMismatch
