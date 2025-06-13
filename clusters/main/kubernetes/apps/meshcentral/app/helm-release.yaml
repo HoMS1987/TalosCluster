@@ -33,7 +33,7 @@ spec:
       cloudflare:
         type: s3
         url: "${CLOUDFLARE_BUCKET_URL}"
-        bucket: "meshcentral"
+        bucket: "meshcentral_new"
         accessKey: "${CLOUDFLARE_BUCKET_ACCESS_KEY}"
         secretKey: "${CLOUDFLARE_BUCKET_SECRET_KEY}"
         encrKey: "${CLOUDFLARE_BUCKET_ENCR_KEY}"
@@ -42,10 +42,10 @@ spec:
         password: ${POSTGRES_PW}
         cluster:
           singleNode: true
-        mode: recovery
+        #mode: recovery
         backups:
-          enabled: true
-          revision: "1"
+          enabled: false
+          revision: "0"
           credentials: cloudflare
           scheduledBackups:
             - name: daily-backup
@@ -53,9 +53,9 @@ spec:
               backupOwnerReference: self
               immediate: true
               suspend: false
-        recovery:
-          revision: ""
-          credentials: cloudflare
+        #recovery:
+          #revision: ""
+          #credentials: cloudflare
     ingress:
       main:
         enabled: true
@@ -86,7 +86,7 @@ spec:
             type: restic
             credentials: cloudflare
             dest:
-              enabled: true
+              enabled: false
             src:
               enabled: false
               trigger:
@@ -97,7 +97,7 @@ spec:
             type: restic
             credentials: cloudflare
             dest:
-              enabled: true
+              enabled: false
             src:
               enabled: false
               trigger:
@@ -108,7 +108,7 @@ spec:
             type: restic
             credentials: cloudflare
             dest:
-              enabled: true
+              enabled: false
             src:
               enabled: false
               trigger:
@@ -119,7 +119,7 @@ spec:
             type: restic
             credentials: cloudflare
             dest:
-              enabled: true
+              enabled: false
             src:
               enabled: false
               trigger:
