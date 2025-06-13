@@ -74,7 +74,7 @@ spec:
     meshcentral:
       domains:
         "":
-          certUrl: meshcentral.${DOMAIN_0}
+          certUrl: https://meshcentral.${DOMAIN_0}
           title: MeshCentral
           title2: HoMSserver
       settings:
