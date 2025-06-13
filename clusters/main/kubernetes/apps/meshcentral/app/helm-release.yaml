@@ -33,7 +33,7 @@ spec:
       cloudflare:
         type: s3
         url: "${CLOUDFLARE_BUCKET_URL}"
-        bucket: "meshcentral_new"
+        bucket: "meshcentral"
         accessKey: "${CLOUDFLARE_BUCKET_ACCESS_KEY}"
         secretKey: "${CLOUDFLARE_BUCKET_SECRET_KEY}"
         encrKey: "${CLOUDFLARE_BUCKET_ENCR_KEY}"
@@ -42,9 +42,9 @@ spec:
         password: ${POSTGRES_PW}
         cluster:
           singleNode: true
-        #mode: recovery
+        mode: recovery
         backups:
-          enabled: false
+          enabled: true
           revision: "1"
           credentials: cloudflare
           scheduledBackups:
@@ -53,9 +53,9 @@ spec:
               backupOwnerReference: self
               immediate: true
               suspend: false
-        #recovery:
-          #revision: ""
-          #credentials: cloudflare
+        recovery:
+          revision: ""
+          credentials: cloudflare
     ingress:
       main:
         enabled: true
@@ -86,9 +86,9 @@ spec:
             type: restic
             credentials: cloudflare
             dest:
-              enabled: false
+              enabled: true
             src:
-              enabled: false
+              enabled: true
               trigger:
                 schedule: 50 1 * * *
       files:
@@ -97,9 +97,9 @@ spec:
             type: restic
             credentials: cloudflare
             dest:
-              enabled: false
+              enabled: true
             src:
-              enabled: false
+              enabled: true
               trigger:
                 schedule: 0 2 * * *
       web:
@@ -108,9 +108,9 @@ spec:
             type: restic
             credentials: cloudflare
             dest:
-              enabled: false
+              enabled: true
             src:
-              enabled: false
+              enabled: true
               trigger:
                 schedule: 10 2 * * *
       backups:
@@ -119,9 +119,9 @@ spec:
             type: restic
             credentials: cloudflare
             dest:
-              enabled: false
+              enabled: true
             src:
-              enabled: false
+              enabled: true
               trigger:
                 schedule: 20 2 * * *
     service:
