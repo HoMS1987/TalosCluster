@@ -45,7 +45,7 @@ spec:
         #mode: recovery
         backups:
           enabled: false
-          revision: "0"
+          revision: "1"
           credentials: cloudflare
           scheduledBackups:
             - name: daily-backup
@@ -124,3 +124,8 @@ spec:
               enabled: false
               trigger:
                 schedule: 20 2 * * *
+    service:
+      main:
+        ports:
+          main:
+            protocol: https
