@@ -34,6 +34,8 @@ kubectl get replicationsource -A
 
 ## Backup Schedule
 
+Zeiten alle UTC ohne Zeitzone
+
 snapshot-delete 0 0 * * * (täglich 0:00)
 
 snapshot-cleanup 20 0 * * * (täglich 0:20)
@@ -48,6 +50,10 @@ ddns-updater
 
 freshrss
 - config 40 1 * * * (täglich 1:40)
+
+immich
+- cnpg 15 4 * * * (täglich 4:15)
+- profile 20 4 * * * (täglich 4:20)
 
 kitchenowl
 - data 50 3 * * * (täglich 3:50)

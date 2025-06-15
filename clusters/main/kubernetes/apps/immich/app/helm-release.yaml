@@ -1,0 +1,115 @@
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/helm.toolkit.fluxcd.io/helmrelease_v2.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: immich
+  namespace: immich
+spec:
+  interval: 5m
+  chart:
+    spec:
+      chart: immich
+      version: 17.55.4
+      sourceRef:
+        kind: HelmRepository
+        name: truecharts
+        namespace: flux-system
+      interval: 5m
+  timeout: 20m
+  maxHistory: 3
+  install:
+    createNamespace: true
+    crds: CreateReplace
+    remediation:
+      retries: 3
+  upgrade:
+    crds: CreateReplace
+    remediation:
+      retries: 3
+  values:
+    TZ: Europe/Berlin
+    global:
+      stopAll: false
+    credentials:
+      cloudflare:
+        type: s3
+        url: "${CLOUDFLARE_BUCKET_URL}"
+        bucket: "immich"
+        accessKey: "${CLOUDFLARE_BUCKET_ACCESS_KEY}"
+        secretKey: "${CLOUDFLARE_BUCKET_SECRET_KEY}"
+        encrKey: "${CLOUDFLARE_BUCKET_ENCR_KEY}"
+    cnpg:
+      main:
+        password: ${POSTGRES_PW}
+        cluster:
+          singleNode: true
+        #mode: recovery
+        backups:
+          enabled: true
+          revision: "0"
+          credentials: cloudflare
+          scheduledBackups:
+            - name: daily-backup
+              schedule: 15 4 * * *
+              backupOwnerReference: self
+              immediate: true
+              suspend: false
+        #recovery:
+          #revision: "1"
+          #credentials: cloudflare
+    ingress:
+      main:
+        enabled: true
+        ingressClassName: external
+        integrations:
+          traefik:
+            enabled: false
+          certManager:
+            enabled: true
+            certificateIssuer: domain-0-le-prod
+          homepage:
+            enabled: true
+            group: Media
+            name: Immich
+            widget:
+              type: immich
+              url: immich.${DOMAIN_0}
+              key: ""
+              version: 2
+        hosts:
+          - host: immich.${DOMAIN_0}
+            paths:
+              - path: /
+                pathType: Prefix
+    persistence:
+      profile:
+        volsync:
+          - name: profile
+            type: restic
+            credentials: cloudflare
+            dest:
+              enabled: false
+            src:
+              enabled: true
+              trigger:
+              schedule: 20 4 * * *
+      thumbs:
+        type: nfs
+        server: ${TRUENAS_IP}
+        path: /mnt/MAIN/immich/thumbnails
+      backups:
+        type: nfs
+        server: ${TRUENAS_IP}
+        path: /mnt/MAIN/immich/backups
+      library:
+        type: nfs
+        server: ${TRUENAS_IP}
+        path: /mnt/MAIN/immich/library
+      uploads:
+        type: nfs
+        server: ${TRUENAS_IP}
+        path: /mnt/MAIN/immich/upload
+      video:
+        type: nfs
+        server: ${TRUENAS_IP}
+        path: /mnt/MAIN/immich/video
