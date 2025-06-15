@@ -63,8 +63,7 @@ spec:
               schedule: 50 3 * * *
     cnpg:
       main:
-        annotations:
-          cnpg.io/skipEmptyWalArchiveCheck: "enabled"
+        password: ${POSTGRES_PW}
         cluster:
           singleNode: true
         #mode: recovery
