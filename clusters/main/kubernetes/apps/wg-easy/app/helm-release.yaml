@@ -69,10 +69,3 @@ spec:
             enabled: true
             trigger:
               schedule: 0 4 * * *
-    workload:
-      main:
-        podSpec:
-          containers:
-            main:
-              env:
-                LANG: "de"
