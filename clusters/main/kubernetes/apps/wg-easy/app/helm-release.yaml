@@ -1,0 +1,82 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: wg-easy
+  namespace: wg-easy
+spec:
+  interval: 15m
+  chart:
+    spec:
+      chart: wg-easy
+      version: 17.0.0
+      sourceRef:
+        kind: HelmRepository
+        name: truecharts
+        namespace: flux-system
+      interval: 15m
+  timeout: 5m
+  maxHistory: 3
+  install:
+    createNamespace: true
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+  uninstall:
+    keepHistory: false
+  values:
+    global:
+      stopAll: false
+    credentials:
+      cloudflare:
+        type: s3
+        url: "${CLOUDFLARE_BUCKET_URL}"
+        bucket: "wg-easy"
+        accessKey: "${CLOUDFLARE_BUCKET_ACCESS_KEY}"
+        secretKey: "${CLOUDFLARE_BUCKET_SECRET_KEY}"
+        encrKey: "${CLOUDFLARE_BUCKET_ENCR_KEY}"
+    service:
+      vpn:
+        loadBalancerIP: ${WG_EASY_IP}
+        type: LoadBalancer
+        externalTrafficPolicy: Local
+    ingress:
+      main:
+        enabled: true
+        ingressClassName: internal
+        integrations:
+          traefik:
+            enabled: false
+          certManager:
+            enabled: true
+            certificateIssuer: domain-0-le-prod
+        hosts:
+          - host: wg.${DOMAIN_0}
+            paths:
+              - path: /
+                pathType: Prefix
+    persistence:
+      config:
+        volsync:
+        - name: config
+          type: restic
+          credentials: cloudflare
+          dest:
+            enabled: false
+          src:
+            enabled: true
+            trigger:
+              schedule: 0 4 * * *
+    workload:
+      main:
+        podSpec:
+          containers:
+            main:
+              env:
+                WG_HOST: "wg.${DOMAIN_0}"
+                WG_DEFAULT_ADDRESS: "10.8.0.x"
+                WG_DEFAULT_DNS: 192.168.2.212
+                PASSWORD_HASH: "${WG_EASY_PW_HASH}"
+                LANG: "de"

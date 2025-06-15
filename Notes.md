@@ -72,3 +72,6 @@ rustdesk
 
 photoprism
 - storage 40 3 * * * (täglich 3:40)
+
+wg-easy
+- config 0 4 * * * (täglich 4:00)
