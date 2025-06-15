@@ -49,6 +49,9 @@ ddns-updater
 freshrss
 - config 40 1 * * * (täglich 1:40)
 
+kitchenowl
+- data 50 3 * * * (täglich 3:50)
+
 meshcentral
 - cnpg "0 15 0 * * *" (???)
 - data 50 1 * * * (täglich 1:50)

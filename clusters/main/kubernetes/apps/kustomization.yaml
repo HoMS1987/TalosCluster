@@ -7,9 +7,11 @@ resources:
   - ddns-updater
   - grafana/ks.yaml
   - homepage
+  - kitchenowl/ks.yaml
   - meshcentral/ks.yaml
   - nextcloud/ks.yaml
+  - photoprism/ks.yaml
   - plex/ks.yaml
   - plex-auto-languages/ks.yaml
   - rustdesk/ks.yaml
-  - photoprism/ks.yaml
+
