@@ -71,6 +71,8 @@ spec:
             enabled: true
             group: Media
             name: Immich
+            widget:
+              enabled: false
         hosts:
           - host: immich.${DOMAIN_0}
             paths:

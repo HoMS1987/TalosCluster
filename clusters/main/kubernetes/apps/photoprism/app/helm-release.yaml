@@ -51,6 +51,8 @@ spec:
             enabled: true
             group: Media
             name: PhotoPrism
+            widget:
+              enabled: false
         hosts:
           - host: photoprism.${DOMAIN_0}
             paths:
