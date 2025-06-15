@@ -73,7 +73,7 @@ spec:
             name: Immich
             widget:
               type: immich
-              url: immich.${DOMAIN_0}
+              url: https://immich.${DOMAIN_0}
               key: ${IMMICH_HOMEPAGE_KEY}
               version: 2
         hosts:
