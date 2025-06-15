@@ -79,4 +79,4 @@ spec:
                 #WG_DEFAULT_ADDRESS: "10.8.0.x"
                 #WG_DEFAULT_DNS: ${BLOCKY_IP}
                 #PASSWORD_HASH: "${WG_EASY_PW_HASH}"
-                #LANG: "de"
+                LANG: "de"
