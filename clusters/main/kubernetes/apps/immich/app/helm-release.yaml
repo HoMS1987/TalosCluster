@@ -110,12 +110,13 @@ spec:
         type: nfs
         server: ${TRUENAS_IP}
         path: /mnt/MAIN/immich/video
-      extLib1:
+      extlib1:
         enabled: true
         type: nfs
         server: ${TRUENAS_IP}
-        mountPath: /usr/src/app/external
+        mountPath: /usr/src/app/external/Lib1
         path: /mnt/MAIN/Pictures
+        readonly: true
         targetSelector:
           # Main pod/container is server
           main:
