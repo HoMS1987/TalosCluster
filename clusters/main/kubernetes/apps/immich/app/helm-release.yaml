@@ -115,3 +115,9 @@ spec:
         mountPath: /usr/src/app/external/Lib1
         path: /mnt/MAIN/Pictures
         readonly: true
+        targetSelector:
+          # Main pod/container is server
+          main:
+            main: {}
+          microservices:
+            microservices: {}
