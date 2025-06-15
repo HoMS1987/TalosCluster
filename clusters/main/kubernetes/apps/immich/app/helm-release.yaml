@@ -112,6 +112,6 @@ spec:
         enabled: true
         type: nfs
         server: ${TRUENAS_IP}
-        mountPath: /usr/src/app/extLib1
+        mountPath: /usr/src/app/external/Lib1
         path: /mnt/MAIN/Pictures
         readonly: true
