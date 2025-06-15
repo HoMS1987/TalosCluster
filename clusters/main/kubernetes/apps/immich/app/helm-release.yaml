@@ -114,9 +114,8 @@ spec:
         enabled: true
         type: nfs
         server: ${TRUENAS_IP}
-        mountPath: /usr/src/app/external/Lib1
+        mountPath: /usr/src/app/external
         path: /mnt/MAIN/Pictures
-        readonly: true
         targetSelector:
           # Main pod/container is server
           main:
