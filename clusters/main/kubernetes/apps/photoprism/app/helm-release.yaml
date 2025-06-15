@@ -51,15 +51,6 @@ spec:
             enabled: true
             group: Media
             name: PhotoPrism
-            widget:
-              enabled: true
-              custom:
-                key: ""
-              customkv:
-                - key: username
-                  value: ${PHOTOPRISM_HOMEPAGE_USER}
-                - key: password
-                  value: ${PHOTOPRISM_HOMEPAGE_USER_PW}
         hosts:
           - host: photoprism.${DOMAIN_0}
             paths:

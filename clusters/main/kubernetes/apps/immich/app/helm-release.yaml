@@ -71,11 +71,6 @@ spec:
             enabled: true
             group: Media
             name: Immich
-            widget:
-              type: immich
-              url: https://immich.${DOMAIN_0}
-              key: ${IMMICH_HOMEPAGE_KEY}
-              version: 2
         hosts:
           - host: immich.${DOMAIN_0}
             paths:
