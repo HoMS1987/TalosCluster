@@ -108,3 +108,10 @@ spec:
         type: nfs
         server: ${TRUENAS_IP}
         path: /mnt/MAIN/immich/video
+      extLib1:
+        enabled: true
+        type: nfs
+        server: ${TRUENAS_IP}
+        mountPath: /usr/src/app/extLib1
+        path: /mnt/MAIN/Pictures
+        readonly: true
