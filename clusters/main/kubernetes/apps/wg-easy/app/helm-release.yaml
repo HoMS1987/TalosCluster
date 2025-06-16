@@ -33,7 +33,7 @@ spec:
       cloudflare:
         type: s3
         url: "${CLOUDFLARE_BUCKET_URL}"
-        bucket: "wg-easy"
+        bucket: "wgeasy"
         accessKey: "${CLOUDFLARE_BUCKET_ACCESS_KEY}"
         secretKey: "${CLOUDFLARE_BUCKET_SECRET_KEY}"
         encrKey: "${CLOUDFLARE_BUCKET_ENCR_KEY}"
