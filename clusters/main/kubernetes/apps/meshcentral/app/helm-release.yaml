@@ -84,7 +84,7 @@ spec:
     persistence:
       data:
         volsync:
-          - name: app-data
+          - name: data
             type: restic
             credentials: cloudflare
             dest:
@@ -117,7 +117,7 @@ spec:
                 schedule: 10 2 * * *
       backups:
         volsync:
-          - name: backup
+          - name: backups
             type: restic
             credentials: cloudflare
             dest:
