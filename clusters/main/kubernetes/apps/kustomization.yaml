@@ -11,7 +11,7 @@ resources:
   - kitchenowl/ks.yaml
   - meshcentral/ks.yaml
   - nextcloud/ks.yaml
-  - photoprism/ks.yaml
+#  - photoprism/ks.yaml
   - plex/ks.yaml
   - plex-auto-languages/ks.yaml
   - rustdesk/ks.yaml
