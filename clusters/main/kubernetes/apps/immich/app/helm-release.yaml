@@ -57,6 +57,8 @@ spec:
         #recovery:
           #revision: "1"
           #credentials: cloudflare
+    immich:
+      log_level: debug
     ingress:
       main:
         enabled: true
