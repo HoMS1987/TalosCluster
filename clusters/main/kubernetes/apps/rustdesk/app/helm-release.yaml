@@ -60,3 +60,7 @@ spec:
       main:
         loadBalancerIP: ${RUSTDESK_IP}
         type: LoadBalancer
+        externalTrafficPolicy: Local
+        integrations:
+          metallb:
+            enabled: true

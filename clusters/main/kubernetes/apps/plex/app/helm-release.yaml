@@ -37,6 +37,9 @@ spec:
       main:
         type: LoadBalancer
         loadBalancerIP: ${PLEX_IP}
+        integrations:
+          metallb:
+            enabled: true
     global:
       stopAll: false
     credentials:
