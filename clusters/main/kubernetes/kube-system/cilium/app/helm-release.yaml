@@ -36,8 +36,6 @@ spec:
   values:
     # autoDirectNodeRoutes: true
     # routingMode: native
-    socketLB:
-      hostNamespaceOnly: true
     hubble:
       enabled: false
     cluster:
