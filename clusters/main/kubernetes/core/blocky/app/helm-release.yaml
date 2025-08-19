@@ -133,6 +133,10 @@ spec:
       clientGroupsBlock:
         - name: default
           groups:
+          - default-ads
+          - default-tracking
+          - default-malicious
+          - default-suspicious
           - ownlists
           - firebog.net
 
