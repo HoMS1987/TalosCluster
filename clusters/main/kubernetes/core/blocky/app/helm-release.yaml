@@ -73,7 +73,7 @@ spec:
       - name: ownlists
         lists:
         - ${OWN_BLACKLIST}
-      - name: firebog.net
+      - name: firebog
         lists:
         - https://raw.githubusercontent.com/PolishFiltersTeam/KADhosts/master/KADhosts.txt
         - https://raw.githubusercontent.com/FadeMind/hosts.extras/master/add.Spam/hosts
@@ -115,7 +115,7 @@ spec:
         - https://raw.githubusercontent.com/DandelionSprout/adfilt/master/Alternate%20versions%20Anti-Malware%20List/AntiMalwareHosts.txt
         - https://osint.digitalside.it/Threat-Intel/lists/latestdomains.txt
         - https://v.firebog.net/hosts/Prigent-Crypto.txt
-        - ttps://raw.githubusercontent.com/FadeMind/hosts.extras/master/add.Risk/hosts
+        - https://raw.githubusercontent.com/FadeMind/hosts.extras/master/add.Risk/hosts
         - https://bitbucket.org/ethanr/dns-blacklists/raw/8575c9f96e5b4a1308f2f12394abd86d0927a4a0/bad_lists/Mandiant_APT1_Report_Appendix_D.txt
         - https://phishing.army/download/phishing_army_blocklist_extended.txt
         - https://gitlab.com/quidsup/notrack-blocklists/raw/master/notrack-malware.txt
@@ -138,7 +138,7 @@ spec:
           - default-malicious
           - default-suspicious
           - ownlists
-          - firebog.net
+          - firebog
 
     # CANNOT be defined in above yaml section
     queryLog:
