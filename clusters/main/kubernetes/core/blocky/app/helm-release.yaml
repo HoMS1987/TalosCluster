@@ -66,14 +66,11 @@ spec:
       upstream: "${GATEWAY}"
     blocking:
       whitelist:
-      - name: ownlists
+      - name: default-own
         lists:
         - ${OWN_WHITELIST}
       blacklist:
-      - name: ownlists
-        lists:
-        - ${OWN_BLACKLIST}
-      - name: firebog
+      - name: default-own
         lists:
         - https://raw.githubusercontent.com/PolishFiltersTeam/KADhosts/master/KADhosts.txt
         - https://raw.githubusercontent.com/FadeMind/hosts.extras/master/add.Spam/hosts
@@ -130,15 +127,16 @@ spec:
         - https://raw.githubusercontent.com/tg12/pihole-phishtank-list/master/list/phish_domains.txt
         - https://raw.githubusercontent.com/HorusTeknoloji/TR-PhishingList/master/url-lists.txt
         - https://zerodot1.gitlab.io/CoinBlockerLists/hosts_browser
+        - ${OWN_BLACKLIST}
       clientGroupsBlock:
         - name: default
           groups:
+          - default
           - default-ads
           - default-tracking
           - default-malicious
           - default-suspicious
-          - ownlists
-          - firebog
+          - default-own
 
     # CANNOT be defined in above yaml section
     queryLog:
