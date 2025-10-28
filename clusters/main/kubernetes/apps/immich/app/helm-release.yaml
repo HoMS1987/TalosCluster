@@ -80,6 +80,9 @@ spec:
             paths:
               - path: /
                 pathType: Prefix
+    workload:
+      main:
+        replicas: 0
     persistence:
       profile:
         volsync:
