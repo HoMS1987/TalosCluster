@@ -40,6 +40,7 @@ spec:
         encrKey: "${CLOUDFLARE_BUCKET_ENCR_KEY}"
     cnpg:
       main:
+        type: vectorchord
         password: ${POSTGRES_PW}
         cluster:
           singleNode: true
