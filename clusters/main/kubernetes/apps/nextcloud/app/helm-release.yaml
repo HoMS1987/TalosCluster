@@ -36,8 +36,6 @@ spec:
         accessKey: "${CLOUDFLARE_BUCKET_ACCESS_KEY}"
         secretKey: "${CLOUDFLARE_BUCKET_SECRET_KEY}"
         encrKey: "${CLOUDFLARE_BUCKET_ENCR_KEY}"
-    image:
-      pullPolicy: Always
     ingress:
       main:
         enabled: true
