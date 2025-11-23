@@ -90,7 +90,7 @@ spec:
             dest:
               enabled: false
             src:
-              enabled: false
+              enabled: true
               trigger:
                 schedule: 50 1 * * *
       files:
@@ -101,7 +101,7 @@ spec:
             dest:
               enabled: false
             src:
-              enabled: false
+              enabled: true
               trigger:
                 schedule: 0 2 * * *
       web:
@@ -112,7 +112,7 @@ spec:
             dest:
               enabled: false
             src:
-              enabled: false
+              enabled: true
               trigger:
                 schedule: 10 2 * * *
       backups:
@@ -123,7 +123,7 @@ spec:
             dest:
               enabled: false
             src:
-              enabled: false
+              enabled: true
               trigger:
                 schedule: 20 2 * * *
     service:
