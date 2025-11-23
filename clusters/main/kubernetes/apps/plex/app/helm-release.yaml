@@ -84,7 +84,7 @@ spec:
           dest:
             enabled: false
           src:
-            enabled: false
+            enabled: true
             trigger:
                 schedule: 30 2 * * *
       movies:
