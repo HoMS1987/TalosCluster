@@ -88,9 +88,9 @@ spec:
             type: restic
             credentials: cloudflare
             dest:
-              enabled: true
+              enabled: false
             src:
-              enabled: true
+              enabled: false
               trigger:
                 schedule: 50 1 * * *
       files:
@@ -99,9 +99,9 @@ spec:
             type: restic
             credentials: cloudflare
             dest:
-              enabled: true
+              enabled: false
             src:
-              enabled: true
+              enabled: false
               trigger:
                 schedule: 0 2 * * *
       web:
@@ -110,9 +110,9 @@ spec:
             type: restic
             credentials: cloudflare
             dest:
-              enabled: true
+              enabled: false
             src:
-              enabled: true
+              enabled: false
               trigger:
                 schedule: 10 2 * * *
       backups:
@@ -121,9 +121,9 @@ spec:
             type: restic
             credentials: cloudflare
             dest:
-              enabled: true
+              enabled: false
             src:
-              enabled: true
+              enabled: false
               trigger:
                 schedule: 20 2 * * *
     service:
