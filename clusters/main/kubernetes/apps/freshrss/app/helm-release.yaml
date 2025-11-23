@@ -68,6 +68,6 @@ spec:
             dest:
               enabled: false
             src:
-              enabled: false
+              enabled: true
               trigger:
                 schedule: 40 1 * * *
