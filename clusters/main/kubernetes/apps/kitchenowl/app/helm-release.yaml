@@ -58,7 +58,7 @@ spec:
           dest:
             enabled: true
           src:
-            enabled: false
+            enabled: true
             trigger:
               schedule: 50 3 * * *
     cnpg:
