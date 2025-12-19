@@ -64,6 +64,9 @@ spec:
       - ${GATEWAY}
     bootstrapDns:
       upstream: "${GATEWAY}"
+    clientLookup:
+      # -- upstream used for client-name lookup
+      upstream: "${GATEWAY}"
     blocking:
       whitelist:
       - name: default-own
