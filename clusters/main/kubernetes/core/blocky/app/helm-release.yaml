@@ -29,10 +29,26 @@ spec:
   uninstall:
     keepHistory: false
   values:
+    TZ: Europe/Amsterdam
     ## set stopAll to "true" if you do not want to use blocky
     # and/or disable its service
     global:
       stopAll: false
+    ingress:
+      main:
+        enabled: true
+        ingressClassName: internal
+        integrations:
+          traefik:
+            enabled: false
+          certManager:
+            enabled: true
+            certificateIssuer: domain-0-le-prod
+        hosts:
+          - host: grafana.${DOMAIN_0}
+            paths:
+              - path: /
+                pathType: Prefix
     service:
       dns:
         externalTrafficPolicy: Local
