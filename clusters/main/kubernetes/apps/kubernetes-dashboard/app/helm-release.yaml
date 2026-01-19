@@ -53,7 +53,7 @@ spec:
             enabled: true
             certificateIssuer: domain-0-le-prod
         hosts:
-          - host: dashbpard.${DOMAIN_0}
+          - host: dashboard.${DOMAIN_0}
             paths:
               - path: /
                 pathType: Prefix
