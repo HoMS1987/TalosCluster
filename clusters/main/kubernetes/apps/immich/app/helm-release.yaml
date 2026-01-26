@@ -89,7 +89,7 @@ spec:
             dest:
               enabled: false
             src:
-              enabled: true
+              enabled: false
               trigger:
               schedule: 20 4 * * *
       thumbs:
