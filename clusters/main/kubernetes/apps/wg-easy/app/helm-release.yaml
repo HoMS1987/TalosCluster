@@ -29,6 +29,9 @@ spec:
   values:
     global:
       stopAll: false
+    wg-easy:
+      env:
+        IPTABLES_BACKEND: "nft"
     credentials:
       cloudflare:
         type: s3
@@ -60,14 +63,6 @@ spec:
             paths:
               - path: /
                 pathType: Prefix
-    workload:
-      main:
-        podSpec:
-          containers:
-            main:
-              env:
-                - name: IPTABLES_BACKEND
-                  value: "nft"
     persistence:
       config:
         volsync:
