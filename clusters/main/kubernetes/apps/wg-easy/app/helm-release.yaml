@@ -29,6 +29,8 @@ spec:
   values:
     global:
       stopAll: false
+    wg-easy:
+      iptablesBackend: nft
     credentials:
       cloudflare:
         type: s3
