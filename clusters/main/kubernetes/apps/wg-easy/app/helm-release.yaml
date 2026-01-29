@@ -60,13 +60,6 @@ spec:
             paths:
               - path: /
                 pathType: Prefix
-    workload:
-      main:
-        podSpec:
-          containers:
-            main:
-              env:
-                IPTABLES_BACKEND: "nft"
     persistence:
       config:
         volsync:
