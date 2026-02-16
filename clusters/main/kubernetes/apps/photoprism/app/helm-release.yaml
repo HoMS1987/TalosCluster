@@ -9,7 +9,7 @@ spec:
     spec:
       # renovate: registryUrl=https://charts.truechartsoci.org
       chart: photoprism
-      version: 27.18.27
+      version: 28.2.0
       sourceRef:
         kind: HelmRepository
         name: truecharts
