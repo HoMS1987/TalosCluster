@@ -81,6 +81,17 @@ spec:
               - path: /
                 pathType: Prefix
     persistence:
+      profile:
+        volsync:
+          - name: profile
+            type: restic
+            credentials: cloudflare
+            dest:
+              enabled: false
+            src:
+              enabled: true
+              trigger:
+                schedule: 20 4 * * *
       thumbs:
         type: nfs
         server: ${TRUENAS_IP}
