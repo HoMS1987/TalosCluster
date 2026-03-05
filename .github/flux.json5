@@ -1,0 +1,21 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "packageRules": [
+    {
+      "description": ["Block automerge for flux minor"],
+      "matchUpdateTypes": ["minor"],
+      "automerge": false,
+      "matchPackageNames": ["/fluxcd/],
+      "labels": ["type/minor", "system-upgrade"],
+      "addLabels": null
+    },
+    {
+      "description": ["Block automerge for flux major"],
+      "matchUpdateTypes": ["major"],
+      "dependencyDashboardApproval": true,
+      "matchPackageNames": ["/fluxcd/"],
+      "labels": ["type/major", "system-upgrade"],
+      "addLabels": null
+    }
+  ]
+  }
