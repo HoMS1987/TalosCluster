@@ -6,7 +6,7 @@
       "matchUpdateTypes": ["minor"],
       "automerge": false,
       "matchPackageNames": ["/fluxcd/],
-      "labels": ["type/minor", "system-upgrade"],
+      "labels": ["type/minor", "flux-upgrade"],
       "addLabels": null
     },
     {
@@ -14,7 +14,7 @@
       "matchUpdateTypes": ["major"],
       "dependencyDashboardApproval": true,
       "matchPackageNames": ["/fluxcd/"],
-      "labels": ["type/major", "system-upgrade"],
+      "labels": ["type/major", "flux-upgrade"],
       "addLabels": null
     }
   ]
