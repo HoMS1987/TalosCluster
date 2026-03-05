@@ -8,14 +8,6 @@
       "matchPackageNames": ["/fluxcd/],
       "labels": ["type/minor", "flux-upgrade"],
       "addLabels": null
-    },
-    {
-      "description": ["Block automerge for flux major"],
-      "matchUpdateTypes": ["major"],
-      "dependencyDashboardApproval": true,
-      "matchPackageNames": ["/fluxcd/"],
-      "labels": ["type/major", "flux-upgrade"],
-      "addLabels": null
     }
   ]
-  }
+}
