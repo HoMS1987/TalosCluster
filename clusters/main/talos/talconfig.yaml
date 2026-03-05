@@ -31,7 +31,7 @@ nodes:
       installDiskSelector:
         size: <= 1600GB
       networkInterfaces:
-        # suffix is the adapter mac adres.
+        # suffix is the adapter mac address.
         - interface: eth0
           addresses:
             - ${MASTER1IP_CIDR}
@@ -50,7 +50,7 @@ nodes:
               #- siderolabs/nonfree-kmod-nvidia-lts
               #- siderolabs/nvidia-container-toolkit-lts
       patches:
-        - '@./patches/nvidia.yaml'
+        #- '@./patches/nvidia.yaml'
         - '@./patches/gc.yaml'
 controlPlane:
     patches:
