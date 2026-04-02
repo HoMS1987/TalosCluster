@@ -52,11 +52,12 @@ freshrss
 - config 40 1 * * * (täglich 1:40)
 
 immich
-- cnpg 15 4 * * * (täglich 4:15)
+- cnpg 0 15 4 * * * (täglich 4:15)
 - profile 20 4 * * * (täglich 4:20)
 
 kitchenowl
 - data 50 3 * * * (täglich 3:50)
+- cnpg 0 55 3 * * * (täglich 3:55)
 
 meshcentral
 - cnpg "0 15 0 * * *" (???)
@@ -66,7 +67,7 @@ meshcentral
 - backups 20 2 * * * (täglich 2:20)
 
 Nextcloud
-- cnpg "0 5 0 * * *" (???)
+- cnpg "0 5 0 * * *" (täglich 0:05)
 - config 10 1 * * * (täglich 1:10)
 - html 20 1 * * * (täglich 1:20)
 
