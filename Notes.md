@@ -60,7 +60,7 @@ kitchenowl
 - cnpg 0 55 3 * * * (täglich 3:55)
 
 meshcentral
-- cnpg "0 15 0 * * *" (???)
+- cnpg "0 45 1 * * *" (täglich 1:45)
 - data 50 1 * * * (täglich 1:50)
 - files 0 2 * * * (täglich 2:00)
 - web 10 2 * * * (täglich 2:10)
