@@ -48,7 +48,7 @@ spec:
           credentials: cloudflare
           scheduledBackups:
             - name: daily-backup
-              schedule: "0 15 0 * * *"
+              schedule: "0 45 1 * * *"
               backupOwnerReference: self
               immediate: true
               suspend: false
