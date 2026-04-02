@@ -43,10 +43,9 @@ spec:
         password: ${POSTGRES_PW}
         cluster:
           singleNode: true
-        #mode: recovery
+        mode: recovery
         backups:
           enabled: true
-          revision: "0"
           credentials: cloudflare
           scheduledBackups:
             - name: daily-backup
@@ -54,9 +53,9 @@ spec:
               backupOwnerReference: self
               immediate: true
               suspend: false
-        #recovery:
-          #revision: "1"
-          #credentials: cloudflare
+        recovery:
+          method: object_store
+          credentials: cloudflare
     immich:
       log_level: debug
     ingress:
@@ -87,7 +86,7 @@ spec:
             type: restic
             credentials: cloudflare
             dest:
-              enabled: false
+              enabled: true
             src:
               enabled: true
               trigger:
