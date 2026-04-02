@@ -66,7 +66,7 @@ spec:
         password: ${POSTGRES_PW}
         cluster:
           singleNode: true
-        #mode: recovery
+        mode: recovery
         backups:
           enabled: true
           credentials: cloudflare
@@ -76,6 +76,6 @@ spec:
               backupOwnerReference: self
               immediate: true
               suspend: false
-        #recovery:
-          #method: object_store
-          #credentials: cloudflare
+        recovery:
+          method: object_store
+          credentials: cloudflare
