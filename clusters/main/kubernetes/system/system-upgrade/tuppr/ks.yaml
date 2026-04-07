@@ -4,9 +4,10 @@ metadata:
   name: tuppr
   namespace: flux-system
 spec:
-  interval: 10m
-  path: clusters/main/kubernetes/system/tuppr/app
+  interval: 1h
+  path: clusters/main/kubernetes/system/system-upgrade/tuppr/app
   prune: true
+  wait: true
   sourceRef:
     kind: GitRepository
     name: cluster
