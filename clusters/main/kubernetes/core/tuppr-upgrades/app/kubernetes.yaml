@@ -1,0 +1,15 @@
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/tuppr.home-operations.com/kubernetesupgrade_v1alpha1.json
+apiVersion: tuppr.home-operations.com/v1alpha1
+kind: KubernetesUpgrade
+metadata:
+  name: cluster
+spec:
+  kubernetes:
+    version: ${KUBERNETES_VERSION}
+  healthChecks:
+    - apiVersion: v1
+      kind: Node
+      description: All nodes are ready
+      expr: "status.conditions.exists(c, c.type == 'Ready' && c.status == 'True')"
+      timeout: 10m

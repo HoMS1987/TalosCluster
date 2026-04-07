@@ -1,0 +1,18 @@
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/tuppr.home-operations.com/talosupgrade_v1alpha1.json
+apiVersion: tuppr.home-operations.com/v1alpha1
+kind: TalosUpgrade
+metadata:
+  name: cluster
+spec:
+  talos:
+    version: ${TALOS_VERSION}
+  policy:
+    rebootMode: default
+    timeout: 30m
+  healthChecks:
+    - apiVersion: v1
+      kind: Node
+      description: All nodes are ready
+      expr: "status.conditions.exists(c, c.type == 'Ready' && c.status == 'True')"
+      timeout: 10m
