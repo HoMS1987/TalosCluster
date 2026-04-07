@@ -1,14 +1,15 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: tuppr-upgrades
+  name: tuppr-plans
   namespace: flux-system
 spec:
-  interval: 10m
-  path: clusters/main/kubernetes/core/tuppr-upgrades/app
-  prune: true
   dependsOn:
     - name: tuppr
+  interval: 1h
+  path: clusters/main/kubernetes/system/system-upgrade/tuppr-plans/app
+  prune: true
+  wait: false
   sourceRef:
     kind: GitRepository
     name: cluster
