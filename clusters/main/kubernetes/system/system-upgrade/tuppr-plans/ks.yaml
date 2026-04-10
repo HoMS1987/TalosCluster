@@ -9,7 +9,7 @@ spec:
   interval: 1h
   path: clusters/main/kubernetes/system/system-upgrade/tuppr-plans/app
   prune: true
-  wait: false
   sourceRef:
     kind: GitRepository
     name: cluster
+  wait: false
