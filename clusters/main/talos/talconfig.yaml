@@ -1,6 +1,6 @@
 clusterName: ${CLUSTERNAME}
 # renovate: datasource=docker depName=ghcr.io/siderolabs/installer
-talosVersion: v1.12.3
+talosVersion: v1.12.6
 # renovate: datasource=docker depName=ghcr.io/siderolabs/kubelet
 kubernetesVersion: v1.35.4
 endpoint: https://${VIP}:6443
@@ -47,8 +47,8 @@ nodes:
               - siderolabs/util-linux-tools
               - siderolabs/iscsi-tools
               - siderolabs/qemu-guest-agent
-              #- siderolabs/nonfree-kmod-nvidia-lts
-              #- siderolabs/nvidia-container-toolkit-lts
+              - siderolabs/nonfree-kmod-nvidia-lts
+              - siderolabs/nvidia-container-toolkit-lts
       patches:
         #- '@./patches/nvidia.yaml'
         - '@./patches/gc.yaml'
