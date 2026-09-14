@@ -2,17 +2,17 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
   - kubernetes-dashboard/ks.yaml
-  - actualserver/ks.yaml
-  - freshrss/ks.yaml
-  - ddns-updater
+#  - actualserver/ks.yaml
+#  - freshrss/ks.yaml
+#  - ddns-updater
   - grafana/ks.yaml
   - homepage
-  - immich/ks.yaml
-  - kitchenowl/ks.yaml
-  - meshcentral/ks.yaml
-  - nextcloud/ks.yaml
+#  - immich/ks.yaml
+#  - kitchenowl/ks.yaml
+#  - meshcentral/ks.yaml
+#  - nextcloud/ks.yaml
 #  - photoprism/ks.yaml
-  - plex/ks.yaml
-  - plex-auto-languages/ks.yaml
-  - rustdesk/ks.yaml
-  - wg-easy/ks.yaml
+#  - plex/ks.yaml
+#  - plex-auto-languages/ks.yaml
+#  - rustdesk/ks.yaml
+#  - wg-easy/ks.yaml

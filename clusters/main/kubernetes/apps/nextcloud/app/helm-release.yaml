@@ -66,6 +66,7 @@ spec:
         mode: recovery
         backups:
           enabled: true
+          revision: "1"
           credentials: cloudflare
           scheduledBackups:
             - name: daily-backup
@@ -83,7 +84,7 @@ spec:
             type: restic
             credentials: cloudflare
             dest:
-              enabled: false
+              enabled: true
             src:
               enabled: true
               trigger:
@@ -99,7 +100,7 @@ spec:
             type: restic
             credentials: cloudflare
             dest:
-              enabled: false
+              enabled: true
             src:
               enabled: true
               trigger:
