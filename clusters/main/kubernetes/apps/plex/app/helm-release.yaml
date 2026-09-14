@@ -14,7 +14,7 @@ spec:
         name: truecharts
         namespace: flux-system
       interval: 15m
-  timeout: 45m
+  timeout: 120m
   maxHistory: 3
   install:
     createNamespace: true

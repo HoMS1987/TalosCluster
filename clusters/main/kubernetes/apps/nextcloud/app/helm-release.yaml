@@ -24,7 +24,7 @@ spec:
     crds: CreateReplace
     remediation:
       retries: 3
-  timeout: 40m
+  timeout: 120m
   values:
     global:
       stopAll: false
