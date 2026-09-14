@@ -9,7 +9,7 @@ resources:
   - homepage
 #  - immich/ks.yaml
   - kitchenowl/ks.yaml
-#  - meshcentral/ks.yaml
+  - meshcentral/ks.yaml
 #  - nextcloud/ks.yaml
 #  - photoprism/ks.yaml
   - plex/ks.yaml
