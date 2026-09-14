@@ -8,7 +8,7 @@ resources:
   - grafana/ks.yaml
   - homepage
 #  - immich/ks.yaml
-#  - kitchenowl/ks.yaml
+  - kitchenowl/ks.yaml
 #  - meshcentral/ks.yaml
 #  - nextcloud/ks.yaml
 #  - photoprism/ks.yaml
