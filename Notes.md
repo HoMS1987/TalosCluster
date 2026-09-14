@@ -8,7 +8,7 @@
 ## VM
 
 MAC: 00:a0:98:5a:1a:51
-Password: Schlueth1987
+Password: ****
 
 ## Important console commands
 
