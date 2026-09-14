@@ -18,6 +18,7 @@ spec:
   timeout: 120m
   maxHistory: 3
   install:
+    disableWait: true
     createNamespace: true
     crds: CreateReplace
     remediation:
