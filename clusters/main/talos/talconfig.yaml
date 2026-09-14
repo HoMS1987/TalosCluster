@@ -31,8 +31,9 @@ nodes:
       installDiskSelector:
         size: <= 1600GB
       networkInterfaces:
-        # suffix is the adapter mac address.
-        - interface: eth0
+        # Select the NIC by MAC instead of name (fresh installs name it ens3, not eth0)
+        - deviceSelector:
+            hardwareAddr: "00:a0:98:5a:1a:51"
           addresses:
             - ${MASTER1IP_CIDR}
           routes:
