@@ -75,6 +75,9 @@ spec:
     kubeProxyReplacement: true
     kubeProxyReplacementHealthzBindAddr: 0.0.0.0:10256
     localRedirectPolicy: true
+    # Required so forwarded traffic from wg-easy VPN clients can reach Services/LB IPs
+    socketLB:
+      hostNamespaceOnly: true
     operator:
       replicas: 1
       rollOutPods: true
