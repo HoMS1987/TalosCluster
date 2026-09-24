@@ -1,0 +1,134 @@
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/helm.toolkit.fluxcd.io/helmrelease_v2.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: blocky-ui
+  # Same namespace as blocky, so the CNPG secret of the query log database can be mounted
+  namespace: blocky
+spec:
+  interval: 15m
+  chart:
+    spec:
+      chart: app-template
+      version: 5.2.1
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s
+        namespace: flux-system
+      interval: 15m
+  timeout: 5m
+  maxHistory: 3
+  install:
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+  uninstall:
+    keepHistory: false
+  values:
+    controllers:
+      blocky-ui:
+        containers:
+          app:
+            image:
+              repository: ghcr.io/gabeduartem/blocky-ui
+              tag: 2.1.1@sha256:7edeaddee3963e59248b0dd0900234912982c86ea867c544fe2ee084bd479274
+            env:
+              TZ: Europe/Berlin
+              BLOCKY_UI_CONFIG: /config/blocky-ui.yml
+            probes:
+              liveness: &probe
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /
+                    port: &port 3000
+              readiness: *probe
+            resources:
+              requests:
+                cpu: 10m
+                memory: 64Mi
+              limits:
+                memory: 256Mi
+            securityContext:
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: true
+              capabilities:
+                drop: [ALL]
+    defaultPodOptions:
+      securityContext:
+        # UID/GID of the nextjs user in the image
+        runAsUser: 1001
+        runAsGroup: 1001
+        runAsNonRoot: true
+        fsGroup: 1001
+        fsGroupChangePolicy: OnRootMismatch
+        seccompProfile:
+          type: RuntimeDefault
+
+    configMaps:
+      config:
+        data:
+          blocky-ui.yml: |
+            servers:
+              blocky:
+                name: Blocky
+                url: http://blocky.blocky.svc.cluster.local:4000
+                logs:
+                  source: postgres
+            logSources:
+              postgres:
+                type: postgresql
+                # Connection URL is read from the mounted CNPG secret (key "std")
+                target: file:/secrets/db/std
+            instanceName: Blocky
+
+    persistence:
+      config:
+        type: configMap
+        identifier: config
+        globalMounts:
+          - path: /config
+            readOnly: true
+      db:
+        type: secret
+        name: blocky-cnpg-main-urls
+        globalMounts:
+          - path: /secrets/db
+            readOnly: true
+      tmp:
+        type: emptyDir
+      next-cache:
+        type: emptyDir
+        globalMounts:
+          - path: /app/.next/cache
+
+    service:
+      app:
+        controller: blocky-ui
+        ports:
+          http:
+            port: *port
+
+    ingress:
+      app:
+        className: internal
+        annotations:
+          cert-manager.io/cluster-issuer: domain-0-le-prod
+          cert-manager.io/private-key-rotation-policy: Always
+        hosts:
+          - host: blocky-ui.${DOMAIN_0}
+            paths:
+              - path: /
+                pathType: Prefix
+                service:
+                  identifier: app
+                  port: http
+        tls:
+          - secretName: blocky-ui-tls-0
+            hosts:
+              - blocky-ui.${DOMAIN_0}
