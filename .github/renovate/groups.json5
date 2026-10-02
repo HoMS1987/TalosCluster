@@ -1,0 +1,24 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "packageRules": [
+    {
+      "description": ["Flux Group"],
+      "groupName": "Flux",
+      "matchPackageNames": ["/fluxcd/"],
+      "matchDatasources": ["docker", "github-tags"],
+      "versioning": "semver",
+      "group": {
+        "commitMessageTopic": "{{{groupName}}} group"
+      }
+    },
+    {
+      "description": ["Talos Group"],
+      "groupName": "Talos",
+      "matchPackageNames": ["/siderolabs\\/talosctl/", "/siderolabs\\/installer/"],
+      "matchDatasources": ["docker"],
+      "group": {
+        "commitMessageTopic": "{{{groupName}}} group"
+      }
+    }
+  ]
+}
