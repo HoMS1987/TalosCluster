@@ -91,6 +91,8 @@ jobs:
         with:
           version: latest
           k3d-args: --k3s-arg --disable=metrics-server@server:*
+          # Authenticated lookups of the k3d/k3s releases avoid GitHub API rate limits
+          github-token: ${{ github.token }}
 
       - name: Remove node taints
         run: kubectl taint --all=true nodes node.cloudprovider.kubernetes.io/uninitialized- || true
