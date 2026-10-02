@@ -1,0 +1,117 @@
+---
+# yaml-language-server: $schema=https://json.schemastore.org/github-workflow.json
+name: HelmRelease Test
+
+on:
+  pull_request:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.number || github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  detect:
+    name: HelmRelease Test - Detect
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.set.outputs.matrix }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Detect changed HelmReleases
+        id: set
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+        run: |
+          changed=$(git diff --name-only "${BASE_SHA}...HEAD")
+
+          # Changes to the test setup itself re-test every HelmRelease
+          if grep -qE '^(ci/|\.github/scripts/deploy_helmrelease\.sh$|\.github/workflows/helmrelease-test\.yaml$)' <<< "$changed"; then
+            echo "🔁 Test setup changed, testing all HelmReleases"
+            files=$(git ls-files 'clusters/main/kubernetes/**/helm-release.yaml')
+          else
+            files=$(grep 'helm-release\.yaml$' <<< "$changed" || true)
+          fi
+
+          mapfile -t skip_list < <(yq -r '.skipList[]' ci/.config.yaml)
+          tested=()
+          skipped=()
+          while IFS= read -r file; do
+            [[ -z "$file" || ! -f "$file" ]] && continue
+            dir=$(dirname "$file")
+            if printf '%s\n' "${skip_list[@]}" | grep -qxF "$dir"; then
+              skipped+=("$file")
+            else
+              tested+=("$file")
+            fi
+          done <<< "$files"
+
+          {
+            echo "## HelmRelease Test"
+            echo "### 🧪 To test"
+            if [ ${#tested[@]} -gt 0 ]; then printf -- '- %s\n' "${tested[@]}"; else echo "_none_"; fi
+            echo "### ⏭️ Skipped"
+            if [ ${#skipped[@]} -gt 0 ]; then printf -- '- %s\n' "${skipped[@]}"; else echo "_none_"; fi
+          } >> "$GITHUB_STEP_SUMMARY"
+
+          if [ ${#tested[@]} -eq 0 ]; then
+            echo "matrix=[]" >> "$GITHUB_OUTPUT"
+          else
+            echo "matrix=$(printf '%s\n' "${tested[@]}" | jq -R . | jq -sc .)" >> "$GITHUB_OUTPUT"
+          fi
+
+  test:
+    if: ${{ needs.detect.outputs.matrix != '[]' }}
+    needs: detect
+    name: HelmRelease Test - Install
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      max-parallel: 10
+      matrix:
+        helmrelease: ${{ fromJSON(needs.detect.outputs.matrix) }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Load dummy env vars from config
+        run: yq e '.dummyEnv | to_entries | .[] | "\(.key)=\(.value)"' ci/.config.yaml >> "$GITHUB_ENV"
+
+      - name: Create k3d cluster
+        uses: nolar/setup-k3d-k3s@v1
+        with:
+          version: latest
+          k3d-args: --k3s-arg --disable=metrics-server@server:*
+
+      - name: Remove node taints
+        run: kubectl taint --all=true nodes node.cloudprovider.kubernetes.io/uninitialized- || true
+
+      - name: Test HelmRelease
+        env:
+          HELMRELEASE: ${{ matrix.helmrelease }}
+        run: bash .github/scripts/deploy_helmrelease.sh "$HELMRELEASE"
+
+  success:
+    if: ${{ !cancelled() }}
+    needs:
+      - detect
+      - test
+    name: HelmRelease Test - Success
+    runs-on: ubuntu-latest
+    steps:
+      - name: Any jobs failed?
+        if: ${{ contains(needs.*.result, 'failure') }}
+        run: exit 1
+
+      - name: All jobs passed or skipped?
+        if: ${{ !(contains(needs.*.result, 'failure')) }}
+        run: echo "All jobs passed or skipped" && echo "${{ toJSON(needs.*.result) }}"

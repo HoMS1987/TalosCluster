@@ -2,12 +2,20 @@ name: Automerge and Approve
 
 on:
   workflow_run:
-    workflows: ["Placeholder"]  # Name of the main CI workflow
+    workflows: # Every CI workflow that has to pass before merging
+      - "Kubeconform"
+      - "Flate"
+      - "HelmRelease Test"
     types:
       - completed
 
+concurrency:
+  group: automerge-${{ github.event.workflow_run.head_branch }}
+  cancel-in-progress: true
+
 jobs:
   automerge:
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -20,4 +28,8 @@ jobs:
           GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
           UPDATE_RETRIES: 24
           UPDATE_RETRY_SLEEP: 60000
+          MERGE_RETRIES: 24
+          MERGE_RETRY_SLEEP: 60000
           MERGE_METHOD: "squash"
+          # Only merge when every check has finished successfully
+          MERGE_READY_STATE: "clean,has_hooks"
