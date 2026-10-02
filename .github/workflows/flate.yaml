@@ -63,6 +63,9 @@ jobs:
       - name: Use dummy cluster settings
         env:
           SETTINGS: clusters/main/kubernetes/flux-system/flux/clustersettings.secret.yaml
+          DIRECT_RELEASES: >-
+            clusters/main/kubernetes/apps/ddns-updater/apps/helm-release.yaml
+            clusters/main/kubernetes/apps/homepage/apps/helm-release.yaml
         run: |
           for side in pull default; do
             file="$side/$SETTINGS"
@@ -73,6 +76,16 @@ jobs:
               KEY="$key" VALUE="$value" yq -i '.data[strenv(KEY)] = strenv(VALUE)' "$tmp"
             done
             mv "$tmp" "$file"
+
+            # Apps deployed directly by flux-entry (no ks.yaml of their own) are rendered
+            # by flate without variable substitution, so substitute them up front
+            yq '.data | to_entries | .[] | .key + "=" + .value' "$file" > "$RUNNER_TEMP/dummy.env"
+            vars="$(yq '.data | keys | .[] | "${" + . + "}"' "$file" | tr '\n' ' ')"
+            for release in $DIRECT_RELEASES; do
+              [ -f "$side/$release" ] || continue
+              (set -a; . "$RUNNER_TEMP/dummy.env"; envsubst "$vars" < "$side/$release" > "$RUNNER_TEMP/release.yaml")
+              mv "$RUNNER_TEMP/release.yaml" "$side/$release"
+            done
           done
 
       - name: Run flate diff

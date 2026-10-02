@@ -1,5 +1,2 @@
 .github/
 ci/
-# Deployed directly by flux-entry without its own Flux Kustomization, so flate
-# renders it without variable substitution and the chart rejects the values
-clusters/main/kubernetes/apps/ddns-updater/
