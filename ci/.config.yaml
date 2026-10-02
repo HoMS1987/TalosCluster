@@ -18,6 +18,9 @@ skipList:
 # Dummy values for the ${VAR} placeholders used in HelmRelease values
 dummyEnv:
   CLUSTERNAME: ci
+  VIP: 192.168.20.200
+  MASTER1IP: 192.168.20.201
+  SVCNET: 10.43.0.0/16
   DOMAIN_0: dummy0.local
   DOMAIN_0_EMAIL: ci@dummy0.local
   DOMAIN_0_CLOUDFLARE_TOKEN: dummy
