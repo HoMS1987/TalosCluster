@@ -1,0 +1,46 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "packageRules": [
+    {
+      "description": ["Major updates need approval in the dependency dashboard"],
+      "matchUpdateTypes": ["major"],
+      "automerge": false,
+      "dependencyDashboardApproval": true
+    },
+    {
+      "description": ["Automerge minor updates, except Talos, Kubernetes, Flux, Longhorn and Cilium"],
+      "matchUpdateTypes": ["minor"],
+      "matchPackageNames": [
+        "!/siderolabs/",
+        "!registry.k8s.io/kubectl",
+        "!/fluxcd/",
+        "!/longhorn/",
+        "!/cilium/"
+      ],
+      "automerge": true,
+      "addLabels": ["automerge"]
+    },
+    {
+      "description": ["Automerge patch updates, except Talos and Kubernetes"],
+      "matchUpdateTypes": ["patch"],
+      "matchPackageNames": [
+        "!/siderolabs/",
+        "!registry.k8s.io/kubectl"
+      ],
+      "automerge": true,
+      "addLabels": ["automerge"]
+    },
+    {
+      "description": ["Automerge digest updates"],
+      "matchUpdateTypes": ["digest"],
+      "automerge": true,
+      "addLabels": ["automerge"]
+    },
+    {
+      "description": ["Automerge digest pinning"],
+      "matchUpdateTypes": ["pin", "pinDigest"],
+      "automerge": true,
+      "addLabels": ["automerge"]
+    }
+  ]
+}

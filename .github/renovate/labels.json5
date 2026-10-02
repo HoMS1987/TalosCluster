@@ -1,0 +1,60 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "packageRules": [
+    {
+      "matchUpdateTypes": ["major"],
+      "addLabels": ["type/major"]
+    },
+    {
+      "matchUpdateTypes": ["minor"],
+      "addLabels": ["type/minor"]
+    },
+    {
+      "matchUpdateTypes": ["patch"],
+      "addLabels": ["type/patch"]
+    },
+    {
+      "matchUpdateTypes": ["digest"],
+      "addLabels": ["type/digest"]
+    },
+    {
+      "matchUpdateTypes": ["pin", "pinDigest"],
+      "addLabels": ["type/pin"]
+    },
+    {
+      "matchDatasources": ["docker"],
+      "addLabels": ["renovate/container"]
+    },
+    {
+      "matchDatasources": ["helm"],
+      "addLabels": ["renovate/helm"]
+    },
+    {
+      "matchDatasources": ["github-releases", "github-tags"],
+      "addLabels": ["renovate/github-release"]
+    },
+    {
+      "matchManagers": ["github-actions"],
+      "addLabels": ["renovate/github-action"]
+    },
+    {
+      "matchPackageNames": ["/siderolabs/", "registry.k8s.io/kubectl"],
+      "addLabels": ["system-upgrade"]
+    },
+    {
+      "matchPackageNames": ["/fluxcd/"],
+      "matchUpdateTypes": ["minor"],
+      "addLabels": ["flux-upgrade"]
+    },
+    {
+      "matchPackageNames": ["/longhorn/"],
+      "matchUpdateTypes": ["minor"],
+      "addLabels": ["longhorn-update"]
+    },
+    {
+      "matchPackageNames": ["/cilium/"],
+      "matchUpdateTypes": ["minor"],
+      "addLabels": ["cilium-update"]
+    }
+  ]
+}
