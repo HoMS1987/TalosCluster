@@ -1,0 +1,54 @@
+# Directories of HelmReleases that are not installed during CI testing
+skipList:
+  # Needs the real cluster network, storage or hardware
+  - clusters/main/kubernetes/kube-system/cilium/app
+  - clusters/main/kubernetes/system/longhorn/app
+  - clusters/main/kubernetes/system/openebs/app
+  - clusters/main/kubernetes/system/metallb/app
+  - clusters/main/kubernetes/core/metallb-config/app
+  - clusters/main/kubernetes/system/nvidia-device-plugin/app
+  - clusters/main/kubernetes/system/spegel/app
+  - clusters/main/kubernetes/core/clusterissuer/app
+  - clusters/main/kubernetes/apps/plex/app
+  # Needs the database secret created by the blocky release
+  - clusters/main/kubernetes/core/blocky-ui/app
+  # Needs its CRDs, which the test installs without
+  - clusters/main/kubernetes/kube-system/node-feature-discovery/app
+
+# Dummy values for the ${VAR} placeholders used in HelmRelease values
+dummyEnv:
+  CLUSTERNAME: ci
+  DOMAIN_0: dummy0.local
+  DOMAIN_0_EMAIL: ci@dummy0.local
+  DOMAIN_0_CLOUDFLARE_TOKEN: dummy
+  PODNET: 10.42.0.0/16
+  GATEWAY: 192.168.20.1
+  TRUENAS_IP: 192.168.20.10
+  METALLB_RANGE: 192.168.20.211-192.168.20.230
+  BLOCKY_IP: 192.168.20.211
+  DASHBOARD_IP: 192.168.20.212
+  HEADLAMP_IP: 192.168.20.213
+  LONGHORN_IP: 192.168.20.214
+  NGINX_EXTERNAL_IP: 192.168.20.215
+  NGINX_INTERNAL_IP: 192.168.20.216
+  PLEX_IP: 192.168.20.217
+  RUSTDESK_IP: 192.168.20.218
+  WG_EASY_IP: 192.168.20.219
+  CLOUDFLARE_BUCKET_URL: https://dummy.r2.local
+  CLOUDFLARE_BUCKET_ACCESS_KEY: dummy
+  CLOUDFLARE_BUCKET_SECRET_KEY: dummy
+  CLOUDFLARE_BUCKET_ENCR_KEY: dummy
+  POSTGRES_PW: dummy
+  DDNS_UPDATER_TOKEN: dummy
+  DDNS_UPDATER_ZONE_IDENTIFIER: dummy
+  FRESHRSS_HOMEPAGE_KEY: dummy
+  GRAFANA_ADMIN: admin
+  GRAFANA_ADMIN_PW: dummy
+  NEXTCLOUD_INITIAL_ADMIN: admin
+  NEXTCLOUD_INITIAL_ADMIN_PW: dummy-Passw0rd
+  NEXTCLOUD_COLLABORA_ADMIN: admin
+  NEXTCLOUD_COLLABORA_ADMIN_PW: dummy-Passw0rd
+  PLEX_TOKEN: dummy
+  PLEX_PAL_URL: http://plex.dummy0.local:32400
+  OWN_BLACKLIST: ""
+  OWN_WHITELIST: ""

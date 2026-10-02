@@ -1,0 +1,6 @@
+# The chart defaults to a LoadBalancer service, which never becomes ready in the CI cluster
+controller:
+  replicaCount: 1
+  service:
+    type: ClusterIP
+    externalTrafficPolicy: ""
