@@ -10,6 +10,10 @@ skipList:
   - clusters/main/kubernetes/system/spegel/app
   - clusters/main/kubernetes/core/clusterissuer/app
   - clusters/main/kubernetes/apps/plex/app
+  # Needs the database secret created by the blocky release
+  - clusters/main/kubernetes/core/blocky-ui/app
+  # Needs its CRDs, which the test installs without
+  - clusters/main/kubernetes/kube-system/node-feature-discovery/app
 
 # Dummy values for the ${VAR} placeholders used in HelmRelease values
 dummyEnv:

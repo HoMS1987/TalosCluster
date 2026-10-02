@@ -201,6 +201,16 @@ if yq -e 'has("cnpg")' "$VALUES_FILE" >/dev/null 2>&1; then
   changed=true
 fi
 
+# LoadBalancer services never become ready in the CI cluster, use ClusterIP instead
+if yq -e '[.. | select(type == "!!map" and .type == "LoadBalancer")] | length > 0' "$VALUES_FILE" >/dev/null 2>&1; then
+  yq -i '
+    (.. | select(type == "!!map" and .type == "LoadBalancer")) |=
+      (.type = "ClusterIP" | del(.loadBalancerIP) | del(.externalTrafficPolicy))
+  ' "$VALUES_FILE"
+  echo "      ⚠️ LoadBalancer services changed to ClusterIP for CI"
+  changed=true
+fi
+
 # Force global.stopAll=false
 if yq -e '.global.stopAll == true' "$VALUES_FILE" >/dev/null 2>&1; then
   yq -i '.global.stopAll = false' "$VALUES_FILE"
@@ -373,6 +383,9 @@ set -e
 print_section "🐛 Debug info"
 print_section "📦 Pods:"
 kubectl get pods -n "$NAMESPACE" -o wide || true
+
+print_section "🧱 Workloads and services:"
+kubectl get deployments,statefulsets,daemonsets,services,pvc -n "$NAMESPACE" -o wide || true
 
 print_section "📅 Events:"
 kubectl get events -n "$NAMESPACE" --sort-by=.metadata.creationTimestamp || true
