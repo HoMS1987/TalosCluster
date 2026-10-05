@@ -51,6 +51,8 @@ spec:
   jobTemplate:
     spec:
       backoffLimit: 2
+      # A hung exec (e.g. NFS stall) must not block all later exports (concurrencyPolicy: Forbid)
+      activeDeadlineSeconds: 3600
       template:
         spec:
           serviceAccountName: paperless-export
