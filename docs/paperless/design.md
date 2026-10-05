@@ -80,7 +80,7 @@ Paperless-Einstellungen:
 
 Export:
 
-- CronJob jede Nacht: `document_exporter /export -d -f --no-progress-bar`.
+- CronJob `paperless-export` jede Nacht um 02:45 UTC (nach dem Plex-Backup, alle Cluster-Zeitpläne laufen in UTC). Er ruft per `kubectl exec` im Paperless-Pod `document_exporter /export -d -f --no-progress-bar` auf und nutzt so die Datenbank- und Speicher-Einstellungen der App. Dafür hat er einen eigenen ServiceAccount, der nur `pods/exec` im Namespace `paperless-ngx` darf.
 - Der Export ist inkrementell (nur geänderte und neue Dateien) und enthält Originale, PDF/A-Fassungen und `manifest.json` mit allen Metadaten. Datenbank und Dateien sind darin zeitgleich gesichert.
 - `-d` entfernt gelöschte Dokumente aus dem Export; `-f` nutzt das Dateinamen-Schema.
 
@@ -89,6 +89,7 @@ Cloud Sync:
 - Eigener R2-Bucket `paperless-export` mit eigenem API-Token, der nur auf diesen Bucket darf.
 - Remote Encryption an; Passwort und Salt im KeePassXC-Container ablegen.
 - Modus „Copy“ statt „Sync“, damit Löschungen oder Schadsoftware nicht in die Cloud durchschlagen.
+- Täglich 07:00 Uhr TrueNAS-Ortszeit, also nach Export und allen Cluster-Backups (Übersicht in `Notes.md`).
 
 Schlüssel außer Haus: `age.agekey` und Cloud-Sync-Passwort und -Salt liegen im KeePassXC-Container, der auf mehrere Geräte synchronisiert wird.
 
@@ -98,10 +99,13 @@ Wiederherstellung: neue Paperless-Instanz aufsetzen, Export aus R2 zurückholen,
 
 ## Vorbereitung auf TrueNAS
 
-- Dataset `paperless` mit den Kind-Datasets `media`, `consume`, `export`.
-- NFS-Freigabe für den Cluster (Rechte so wie bei den bestehenden Immich-Freigaben).
-- SMB-Freigabe für `consume`.
-- Periodische Snapshot-Aufgabe für `paperless/media`.
+- Dataset `paperless` mit den Kind-Datasets `media`, `consume`, `export`; Besitzer `apps` (UID/GID 568), unter dieser Kennung arbeitet Paperless im Pod.
+- `consume` als Multiprotocol-Dataset mit NFSv4-ACL: `owner@` Vollzugriff, benannte Gruppe `apps` und der SMB-Benutzer je *Modify*, alle vererbt. So darf Paperless Dateien lesen und löschen, die per SMB abgelegt wurden.
+- NFS-Freigaben für die drei Ordner:
+  - *Hosts* nur der Talos-Node, damit kein anderes Gerät im Netz das Archiv einbinden kann.
+  - *Mapall User/Group* `apps`. Ohne diese Einstellung macht TrueNAS aus `root` im Container den Benutzer `nobody`; die vom Container beim Start angelegten Ordner (`media/documents/originals` usw.) waren dann für Paperless nicht beschreibbar.
+- SMB-Freigabe für `consume`; der SMB-Benutzer braucht zusätzlich einen Eintrag in der Freigabe-ACL der SMB-Freigabe.
+- Periodische Snapshot-Aufgabe für `paperless/media`, täglich, Aufbewahrung 4 Wochen.
 - Cloud-Zugangsprofil (S3-kompatibel, R2-Endpunkt) und Cloud-Sync-Aufgabe für `paperless/export`.
 
 ## Erster Import
@@ -156,9 +160,12 @@ Spätere Sammel-Downloads (Bank, Versicherungsportal) erzeugen oft neue PDF-Date
 
 ## Offene Punkte (in der Umsetzung zu prüfen)
 
-- **Export-CronJob:** als Zusatz-Workload im TrueCharts-Chart oder als eigener CronJob mit `kubectl exec`.
 - **TrueNAS Cloud Sync:** ob die installierte TrueNAS-Version R2 als eigenen Anbieter kennt; sonst S3 mit eigenem Endpunkt.
 - **Copy-Modus:** ob `document_importer` mit übrig gebliebenen alten Dateien im Export klarkommt (Wiederherstellungstest).
-- **Chart-Annotation:** `trueforge.org/max_kubernetes_version: 1.35.0` gegenüber Cluster-Version 1.36.5; die Annotation ist nur informativ (`kubeVersion: >=1.33`). Beim ersten Deploy beobachten.
 - **Mailversand:** ob SMTP-Versand über das Outlook.com-Konto noch mit Passwort möglich ist (Testversand).
-- **JPG zu PDF:** Werkzeug (Python oder ImageMagick) auf dem PC.
+
+Geklärt:
+
+- **Export-CronJob:** eigener CronJob mit `kubectl exec` statt Zusatz-Workload im Chart, weil er so keine Umgebungsvariablen der App duplizieren muss.
+- **Chart-Annotation:** `trueforge.org/max_kubernetes_version: 1.35.0` ist nur informativ; Paperless läuft seit dem 2026-10-05 auf Kubernetes 1.36.5.
+- **JPG zu PDF:** Pillow (Python) fügt mehrseitige Scans zu einer PDF zusammen, kein zusätzliches Werkzeug nötig.
