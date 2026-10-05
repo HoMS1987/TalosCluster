@@ -58,6 +58,13 @@ spec:
           valueExpr: labels["git_version"]
           colorExpr: '"blue"'
 
+        - id: flux_version
+          query: label_replace(gotk_resource_info{exported_namespace="flux-system",name="flux",customresource_kind="Kustomization"}, "revision", "$1", "revision", "v(.+)@sha256:.+")
+          title: Flux
+          icon: si:flux
+          valueExpr: labels["revision"]
+          colorExpr: '"blue"'
+
         - id: cluster_node_count
           query: count(count by (node) (kube_node_status_condition{condition="Ready"}))
           colorExpr: 'result > 0 ? "green" : "red"'
