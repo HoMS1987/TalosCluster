@@ -48,7 +48,10 @@ Wichtige Werte:
 - Ingress `internal`, Host `paperless.${DOMAIN_0}`, Zertifikat über `domain-0-le-prod`.
 - CNPG-Datenbank mit täglichem Backup nach R2 (Muster wie bei Immich) und `retentionPolicy: "7d"`; Valkey aus dem Chart.
 - `tika.enabled: true`.
-- Der Chart-Standard `PAPERLESS_ADMIN_USER=admin` / `PAPERLESS_ADMIN_PASSWORD=admin` wird durch die Cluster-Variablen `${PAPERLESS_ADMIN_USER}`, `${PAPERLESS_ADMIN_PASS}` und `${PAPERLESS_ADMIN_MAIL}` ersetzt. Sie stehen SOPS-verschlüsselt in `clustersettings.secret.yaml`, Dummy-Werte in `ci/.config.yaml`.
+- Admin-Zugang: Paperless startet mit dem Chart-Standard `admin`/`admin`. Das Passwort wird bei der ersten Anmeldung geändert und in KeePassXC abgelegt.
+  - `PAPERLESS_ADMIN_USER` legt den Benutzer nur an, wenn er fehlt, und ändert nie ein bestehendes Passwort.
+  - Darum den Benutzer `admin` nie umbenennen oder löschen, sonst entsteht er beim nächsten Pod-Start neu mit Passwort `admin`.
+  - Eine Instanz für eine Wiederherstellung bekommt einen anderen Admin-Namen, damit sie nicht mit dem `admin` aus dem Export kollidiert.
 - `PAPERLESS_SECRET_KEY` erzeugt das Chart selbst (Secret `…-secrets`).
 
 Paperless-Einstellungen:
@@ -142,7 +145,7 @@ Spätere Sammel-Downloads (Bank, Versicherungsportal) erzeugen oft neue PDF-Date
 ## Sicherheit
 
 - Nur interner Zugriff; 2FA für jedes Konto.
-- Zugangsdaten nur SOPS-verschlüsselt in den Cluster-Variablen.
+- Standard-Passwort `admin` direkt nach dem ersten Deploy ändern; Zugangsdaten in KeePassXC.
 - Workflow setzt den Eigentümer, damit Dokumente nicht ohne Eigentümer für alle sichtbar sind.
 - Persönliche Einteilung nicht im öffentlichen Repository.
 
