@@ -1,0 +1,82 @@
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: paperless-export
+  namespace: paperless-ngx
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: paperless-export
+  namespace: paperless-ngx
+rules:
+  - apiGroups: ["apps"]
+    resources: ["deployments"]
+    verbs: ["get"]
+  - apiGroups: [""]
+    resources: ["pods"]
+    verbs: ["get", "list"]
+  - apiGroups: [""]
+    resources: ["pods/exec"]
+    verbs: ["create"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: paperless-export
+  namespace: paperless-ngx
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: paperless-export
+subjects:
+  - kind: ServiceAccount
+    name: paperless-export
+    namespace: paperless-ngx
+---
+# Runs the exporter inside the Paperless pod, so it uses the app's own database and media settings
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: paperless-export
+  namespace: paperless-ngx
+spec:
+  # UTC like all other backup schedules in the cluster: after Plex VolSync (02:30), before RustDesk (03:30)
+  schedule: "45 2 * * *"
+  timeZone: Etc/UTC
+  concurrencyPolicy: Forbid
+  successfulJobsHistoryLimit: 3
+  failedJobsHistoryLimit: 3
+  jobTemplate:
+    spec:
+      backoffLimit: 2
+      template:
+        spec:
+          serviceAccountName: paperless-export
+          restartPolicy: Never
+          securityContext:
+            runAsNonRoot: true
+            runAsUser: 65532
+            seccompProfile:
+              type: RuntimeDefault
+          containers:
+            - name: export
+              image: registry.k8s.io/kubectl:v1.36.5
+              command: ["kubectl"]
+              args:
+                - exec
+                - deploy/paperless-ngx
+                - -c
+                - paperless-ngx
+                - --
+                - document_exporter
+                - /export
+                - -d
+                - -f
+                - --no-progress-bar
+              securityContext:
+                allowPrivilegeEscalation: false
+                readOnlyRootFilesystem: true
+                capabilities:
+                  drop: ["ALL"]
