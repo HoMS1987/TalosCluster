@@ -54,6 +54,11 @@ spec:
               suspend: false
     tika:
       enabled: true
+    # Chart default (1500m / 2400Mi) gets OOM-killed when OCR rasterizes multi-page PDFs (OCR mode force)
+    resources:
+      limits:
+        cpu: 4000m
+        memory: 6Gi
     ingress:
       main:
         enabled: true
