@@ -97,6 +97,11 @@ Warum kein VolSync für `media`: Die TrueCharts-Bibliothek legt VolSync-Objekte 
 
 Wiederherstellung: neue Paperless-Instanz aufsetzen, Export aus R2 zurückholen, `document_importer` ausführen.
 
+- Getestet am 2026-10-05: R2 → `rclone` (crypt mit Passwort und Salt der Cloud-Sync-Aufgabe, `filename_encryption=standard`) → vorübergehende Instanz → `document_importer`. Dokumente, Korrespondenten, Typen, Tags, Felder und Workflows stimmten mit dem Manifest überein.
+- In PowerShell die rclone-Werte in einfache Anführungszeichen setzen, sonst verfälschen Sonderzeichen im Passwort den Schlüssel.
+- Der Importer ersetzt den vorübergehenden Admin der neuen Instanz durch `admin` aus dem Export. Danach gilt das gewohnte `admin`-Passwort.
+- Der CronJob hat ein Zeitlimit von einer Stunde (`activeDeadlineSeconds`), damit ein hängender Export nicht alle folgenden blockiert.
+
 ## Vorbereitung auf TrueNAS
 
 - Dataset `paperless` mit den Kind-Datasets `media`, `consume`, `export`; Besitzer `apps` (UID/GID 568), unter dieser Kennung arbeitet Paperless im Pod.
@@ -161,7 +166,7 @@ Spätere Sammel-Downloads (Bank, Versicherungsportal) erzeugen oft neue PDF-Date
 ## Offene Punkte (in der Umsetzung zu prüfen)
 
 - **TrueNAS Cloud Sync:** ob die installierte TrueNAS-Version R2 als eigenen Anbieter kennt; sonst S3 mit eigenem Endpunkt.
-- **Copy-Modus:** ob `document_importer` mit übrig gebliebenen alten Dateien im Export klarkommt (Wiederherstellungstest).
+- **Copy-Modus:** ob `document_importer` mit übrig gebliebenen alten Dateien im Export klarkommt. Beim ersten Wiederherstellungstest gab es noch keine; im zweiten Test nach der Parallelphase prüfen.
 - **Mailversand:** ob SMTP-Versand über das Outlook.com-Konto noch mit Passwort möglich ist (Testversand).
 
 Geklärt:
