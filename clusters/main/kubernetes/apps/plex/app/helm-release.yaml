@@ -106,6 +106,12 @@ spec:
         path: /mnt/MAIN/Music
         mountPath: /media/Music
         server: ${TRUENAS_IP}
+      transcode:
+        enabled: true
+        type: nfs
+        path: /mnt/MAIN/plex/transcode
+        mountPath: /transcode
+        server: ${TRUENAS_IP}
     workload:
       main:
         podSpec:
