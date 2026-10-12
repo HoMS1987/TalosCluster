@@ -26,6 +26,10 @@ spec:
         kind: Kustomization
         metadata:
           name: not-used
+          labels:
+            # Selected by the github-status Alert; Kustomization/flux comes from an OCI artifact
+            # whose revision is no commit of this repository
+            notification.flux.home.arpa/github-status: "true"
         spec:
           decryption:
             provider: sops
