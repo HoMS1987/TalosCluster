@@ -1,0 +1,24 @@
+---
+# Synced to the repository by .github/workflows/label-sync.yaml.
+# Labels missing here are deleted on sync, so add new Renovate labels first.
+# Area (set by .github/labeler.yaml)
+- { name: "area/github",             color: "1d76db", description: "Changes to workflows, Renovate or CI config" }
+- { name: "area/kubernetes",         color: "1d76db", description: "Changes to Kubernetes manifests" }
+- { name: "area/talos",              color: "1d76db", description: "Changes to the Talos configuration" }
+# Renovate datasource
+- { name: "renovate/container",      color: "027fa0", description: "Container image or OCI chart update" }
+- { name: "renovate/helm",           color: "027fa0", description: "Helm chart update" }
+- { name: "renovate/github-release", color: "027fa0", description: "GitHub release update" }
+- { name: "renovate/github-action",  color: "027fa0", description: "GitHub Action update" }
+# Semantic type
+- { name: "type/pin",                color: "ffec19", description: "Version or digest pinning" }
+- { name: "type/digest",             color: "ffec19", description: "Digest update" }
+- { name: "type/patch",              color: "ffec19", description: "Patch update" }
+- { name: "type/minor",              color: "ff9800", description: "Minor update" }
+- { name: "type/major",              color: "f6412d", description: "Major update, check for breaking changes" }
+# Uncategorized
+- { name: "automerge",               color: "0e8a16", description: "Merged automatically once all checks pass" }
+- { name: "system-upgrade",          color: "8a44cc", description: "Talos or Kubernetes upgrade" }
+- { name: "flux-upgrade",            color: "8a44cc", description: "Flux minor upgrade" }
+- { name: "longhorn-update",         color: "8a44cc", description: "Longhorn minor update" }
+- { name: "cilium-update",           color: "8a44cc", description: "Cilium minor update" }
