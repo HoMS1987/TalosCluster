@@ -1,0 +1,14 @@
+---
+area/github:
+  - changed-files:
+      - any-glob-to-any-file:
+          - .github/**/*
+          - ci/**/*
+area/kubernetes:
+  - changed-files:
+      - any-glob-to-any-file:
+          - clusters/main/kubernetes/**/*
+          - repositories/**/*
+area/talos:
+  - changed-files:
+      - any-glob-to-any-file: clusters/main/talos/**/*

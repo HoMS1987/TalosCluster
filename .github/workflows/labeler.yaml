@@ -1,0 +1,25 @@
+---
+# yaml-language-server: $schema=https://json.schemastore.org/github-workflow.json
+name: Labeler
+
+# pull_request_target runs with the base branch workflow and never checks out
+# the PR code, so the token can label PRs safely
+on:
+  pull_request_target:
+    branches:
+      - main
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  labeler:
+    name: Labeler
+    runs-on: ubuntu-latest
+    steps:
+      - name: Labeler
+        uses: actions/labeler@bf12e9b00b37c5c0ca2b87b79b2daf7891dbda13 # v7.0.0
+        with:
+          configuration-path: .github/labeler.yaml
+          sync-labels: true
