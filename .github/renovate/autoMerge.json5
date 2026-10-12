@@ -8,11 +8,12 @@
       "dependencyDashboardApproval": true
     },
     {
-      "description": ["Automerge minor updates, except Talos, Kubernetes, Flux, Longhorn and Cilium"],
+      "description": ["Automerge minor updates, except Talos, Kubernetes (incl. the k3s CI cluster), Flux, Longhorn and Cilium"],
       "matchUpdateTypes": ["minor"],
       "matchPackageNames": [
         "!/siderolabs/",
         "!registry.k8s.io/kubectl",
+        "!k3s-io/k3s",
         "!/fluxcd/",
         "!/longhorn/",
         "!/cilium/"
