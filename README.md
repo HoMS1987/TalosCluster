@@ -4,9 +4,12 @@
 
 *A self-hosted, GitOps-driven single-node Kubernetes cluster built on Talos Linux.*
 
+<!-- The TrueNAS badge is static: update its version after a TrueNAS update -->
+
 [![Talos](https://img.shields.io/endpoint?url=https://kromgo.homsserver.com/badges/talos_version?format=shields&style=for-the-badge&logo=talos&logoColor=white&label=%20)](https://www.talos.dev/)&nbsp;&nbsp;
 [![Kubernetes](https://img.shields.io/endpoint?url=https://kromgo.homsserver.com/badges/kubernetes_version?format=shields&style=for-the-badge&logo=kubernetes&logoColor=white&label=%20)](https://www.kubernetes.io/)&nbsp;&nbsp;
-[![Flux](https://img.shields.io/endpoint?url=https://kromgo.homsserver.com/badges/flux_version?format=shields&style=for-the-badge&logo=flux&logoColor=white&label=%20)](https://fluxcd.io)
+[![Flux](https://img.shields.io/endpoint?url=https://kromgo.homsserver.com/badges/flux_version?format=shields&style=for-the-badge&logo=flux&logoColor=white&label=%20)](https://fluxcd.io)&nbsp;&nbsp;
+[![TrueNAS](https://img.shields.io/badge/-25.10.7-blue?style=for-the-badge&logo=truenas&logoColor=white)](https://www.truenas.com/)
 
 [![Age-Days](https://img.shields.io/endpoint?url=https://kromgo.homsserver.com/badges/cluster_age_days?format=shields&style=flat-square&label=Age)](https://github.com/home-operations/kromgo)&nbsp;&nbsp;
 [![Uptime-Days](https://img.shields.io/endpoint?url=https://kromgo.homsserver.com/badges/cluster_uptime_days?format=shields&style=flat-square&label=Uptime)](https://github.com/home-operations/kromgo)&nbsp;&nbsp;
