@@ -20,8 +20,13 @@ metadata:
 spec:
   providerRef:
     name: github
-  # Every Kustomization reports success or failure as a commit status
+  # Kustomizations built from this repository report success or failure as a commit status.
+  # Kustomization/flux is left out: its OCI source revision points to a fluxcd/flux2 commit (GitHub answers 422).
   eventSeverity: info
   eventSources:
     - kind: Kustomization
+      name: flux-entry
+    - kind: Kustomization
       name: "*"
+      matchLabels:
+        notification.flux.home.arpa/github-status: "true"
