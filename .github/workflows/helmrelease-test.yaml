@@ -87,10 +87,18 @@ jobs:
         run: yq e '.dummyEnv | to_entries | .[] | "\(.key)=\(.value)"' ci/.config.yaml >> "$GITHUB_ENV"
 
       - name: Create k3d cluster
-        uses: nolar/setup-k3d-k3s@v1
+        uses: nolar/setup-k3d-k3s@62c9d1bd2bc843275c85d2e7dcd696edc1160eee # v1.1.0
         with:
-          version: latest
-          k3d-args: --k3s-arg --disable=metrics-server@server:*
+          # Keep the minor in line with kubernetesVersion in talconfig.yaml
+          # renovate: datasource=github-releases depName=k3s-io/k3s
+          version: v1.36.5+k3s1
+          # renovate: datasource=github-releases depName=k3d-io/k3d
+          k3d-tag: v5.9.0
+          # Bundled add-ons the real cluster does not run (gateway-api-crd ships from k3s 1.37 on)
+          k3d-args: >-
+            --k3s-arg --disable=metrics-server@server:*
+            --k3s-arg --disable=traefik@server:*
+            --k3s-arg --disable=gateway-api-crd@server:*
           # Authenticated lookups of the k3d/k3s releases avoid GitHub API rate limits
           github-token: ${{ github.token }}
 
