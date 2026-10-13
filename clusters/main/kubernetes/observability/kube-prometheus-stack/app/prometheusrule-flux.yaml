@@ -1,0 +1,21 @@
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/monitoring.coreos.com/prometheusrule_v1.json
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: flux
+  namespace: kube-prometheus-stack
+spec:
+  groups:
+    - name: flux
+      rules:
+        # gotk_resource_info comes from kube-state-metrics customResourceState (see helm-release.yaml).
+        # Templates use .Labels: Flux substitution would replace the dollar-sign labels variable.
+        - alert: FluxResourceNotReady
+          expr: max by (customresource_kind, exported_namespace, name) (gotk_resource_info{ready="False", suspended!="true"}) > 0
+          for: 15m
+          labels:
+            severity: warning
+          annotations:
+            summary: "{{ .Labels.customresource_kind }} {{ .Labels.exported_namespace }}/{{ .Labels.name }} is not ready"
+            description: "Check with: flux get all -n {{ .Labels.exported_namespace }}"

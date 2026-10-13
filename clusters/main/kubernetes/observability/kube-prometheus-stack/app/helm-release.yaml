@@ -36,7 +36,17 @@ spec:
         forceConflicts: true
     cleanPrometheusOperatorObjectNames: true
     alertmanager:
-      enabled: false
+      enabled: true
+      alertmanagerSpec:
+        # Use the AlertmanagerConfig from alertmanagerconfig.yaml as the global configuration
+        alertmanagerConfiguration:
+          name: alertmanager
+        resources:
+          requests:
+            cpu: 10m
+            memory: 64Mi
+          limits:
+            memory: 256Mi
     kubeEtcd:
       service:
         selector:
@@ -106,11 +116,15 @@ spec:
               replacement: $1
               sourceLabels: ["__meta_kubernetes_pod_node_name"]
               targetLabel: kubernetes_node
-      # Expose Flux Kustomizations as gotk_resource_info (used by the kromgo Flux badge)
+      # Expose Flux Kustomizations and HelmReleases as gotk_resource_info
+      # (used by the kromgo Flux badge and the FluxResourceNotReady alert)
       rbac:
         extraRules:
           - apiGroups: ["kustomize.toolkit.fluxcd.io"]
             resources: ["kustomizations"]
+            verbs: ["list", "watch"]
+          - apiGroups: ["helm.toolkit.fluxcd.io"]
+            resources: ["helmreleases"]
             verbs: ["list", "watch"]
       customResourceState:
         enabled: true
@@ -136,6 +150,24 @@ spec:
                       suspended: [spec, suspend]
                       revision: [status, lastAppliedRevision]
                       source_name: [spec, sourceRef, name]
+              - groupVersionKind:
+                  group: helm.toolkit.fluxcd.io
+                  version: v2
+                  kind: HelmRelease
+                metricNamePrefix: gotk
+                metrics:
+                  - name: resource_info
+                    help: The current state of a Flux HelmRelease resource.
+                    each:
+                      type: Info
+                      info:
+                        labelsFromPath:
+                          name: [metadata, name]
+                    labelsFromPath:
+                      exported_namespace: [metadata, namespace]
+                      ready: [status, conditions, "[type=Ready]", status]
+                      suspended: [spec, suspend]
+                      revision: [status, lastAttemptedRevision]
     grafana:
       enabled: false
       forceDeployDashboards: true
