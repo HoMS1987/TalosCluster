@@ -99,8 +99,8 @@ spec:
           colorExpr: 'result < 180 ? "green" : result < 360 ? "orange" : "red"'
           title: Uptime
 
-        # Needs Alertmanager, which is currently disabled in kube-prometheus-stack
-        # - id: cluster_alert_count
-        #   query: alertmanager_alerts{state="active"} - 1 # Ignore Watchdog
-        #   colorExpr: 'result < 1 ? "green" : "red"'
-        #   title: Alerts
+        # Counts the alerts that Alertmanager sends to Telegram (warning/critical)
+        - id: cluster_alert_count
+          query: count(ALERTS{alertstate="firing", severity=~"warning|critical"}) or vector(0)
+          colorExpr: 'result < 1 ? "green" : "red"'
+          title: Alerts
