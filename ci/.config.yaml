@@ -10,6 +10,8 @@ skipList:
   - clusters/main/kubernetes/system/spegel/app
   - clusters/main/kubernetes/core/clusterissuer/app
   - clusters/main/kubernetes/apps/plex/app
+  # Needs the ip6_tables kernel module for IPv6 NAT (since chart 20.1), which the GitHub runner kernel lacks
+  - clusters/main/kubernetes/apps/wg-easy/app
   # Needs the database secret created by the blocky release
   - clusters/main/kubernetes/core/blocky-ui/app
   # Needs its CRDs, which the test installs without
