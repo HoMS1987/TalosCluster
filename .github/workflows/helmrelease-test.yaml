@@ -91,7 +91,7 @@ jobs:
         with:
           # Keep the minor in line with kubernetesVersion in talconfig.yaml
           # renovate: datasource=github-releases depName=k3s-io/k3s
-          version: v1.36.5+k3s1
+          version: v1.37.1+k3s1
           # renovate: datasource=github-releases depName=k3d-io/k3d
           k3d-tag: v5.9.0
           # Bundled add-ons the real cluster does not run (gateway-api-crd ships from k3s 1.37 on)
