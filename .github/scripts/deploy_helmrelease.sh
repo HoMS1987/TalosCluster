@@ -314,7 +314,9 @@ fi
 
 if $install_ingress; then
   echo "::group::🌐 Installing ingress-nginx..."
-  helm install ingress-nginx oci://ghcr.io/home-operations/charts-mirror/ingress-nginx --namespace ingress-nginx --create-namespace \
+  # Upstream repository, same chart version as the cluster (repositories/helm/ingress-nginx.yaml);
+  # the home-operations mirror no longer serves ingress-nginx (403 denied)
+  helm install ingress-nginx ingress-nginx --repo https://kubernetes.github.io/ingress-nginx --version 4.15.1 --namespace ingress-nginx --create-namespace \
       --set controller.ingressClassResource.default=true --set controller.publishService.enabled=false --set controller.service.type="ClusterIP" --set controller.config.allow-snippet-annotations=true --set controller.config.annotations-risk-level="Critical" --wait
   if [[ "$?" != "0" ]]; then
       echo "❌ Failed to install ingress-nginx"
