@@ -11,9 +11,25 @@ machine:
       rotate-server-certificates: "true"
     extraConfig:
       maxPods: 250
-      # Give pods (CNPG, Longhorn) time to stop cleanly on shutdown/reboot (clustertool v5 default)
-      shutdownGracePeriod: 90s
-      shutdownGracePeriodCriticalPods: 60s
+      # Stop pods in stages on shutdown/reboot: workloads (incl. CNPG) first, then Longhorn, then system pods.
+      # A single 90s/60s split ended Longhorn (longhorn-critical counts as non-critical) together with Postgres,
+      # so volumes went offline while databases were still writing.
+      # Talos sets 30s/10s when these keys are missing; the kubelet rejects them alongside ByPodPriority.
+      shutdownGracePeriod: 0s
+      shutdownGracePeriodCriticalPods: 0s
+      shutdownGracePeriodByPodPriority:
+        # Workloads; longer than CNPG smartShutdownTimeout (180s)
+        - priority: 0
+          shutdownGracePeriodSeconds: 210
+        # longhorn-critical
+        - priority: 1000000000
+          shutdownGracePeriodSeconds: 60
+        # system-cluster-critical (Flux, CoreDNS, control plane)
+        - priority: 2000000000
+          shutdownGracePeriodSeconds: 30
+        # system-node-critical (Cilium, NVIDIA device plugin, tuppr)
+        - priority: 2000001000
+          shutdownGracePeriodSeconds: 30
       # Cap the CrashLoopBackOff delay at 60s instead of 5m (clustertool v5 default, on by default since Kubernetes 1.35)
       crashLoopBackOff:
         maxContainerRestartPeriod: 60s
