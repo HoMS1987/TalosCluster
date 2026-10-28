@@ -18,6 +18,7 @@
     "github>HoMS1987/TalosCluster//.github/renovate/labels.json5",
     "github>HoMS1987/TalosCluster//.github/renovate/autoMerge.json5",
     "github>HoMS1987/TalosCluster//.github/renovate/groups.json5",
-    "github>HoMS1987/TalosCluster//.github/renovate/customVersioning.json5"
+    "github>HoMS1987/TalosCluster//.github/renovate/customVersioning.json5",
+    "github>HoMS1987/TalosCluster//.github/renovate/talos.json5"
   ]
 }

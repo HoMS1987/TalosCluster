@@ -1,0 +1,21 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "packageRules": [
+    {
+      "description": [
+        "Keep talconfig.yaml on Talos 1.13 until the machine config patches use the Talos 1.14 documents",
+        "(ResolverConfig, KubeControllerManagerConfig, KubeSchedulerConfig); clustertool 4 genconfig fails with 1.14.",
+        "The nodes are upgraded in place by tuppr (upgradesettings.yaml, tuppr-plans)."
+      ],
+      "matchFileNames": ["clusters/main/talos/talconfig.yaml"],
+      "matchPackageNames": ["siderolabs/talos"],
+      "allowedVersions": "<1.14.0"
+    },
+    {
+      "description": ["Keep talconfig.yaml on Kubernetes 1.36 together with Talos 1.13 (see above)"],
+      "matchFileNames": ["clusters/main/talos/talconfig.yaml"],
+      "matchPackageNames": ["ghcr.io/siderolabs/kubelet"],
+      "allowedVersions": "<1.37.0"
+    }
+  ]
+}
