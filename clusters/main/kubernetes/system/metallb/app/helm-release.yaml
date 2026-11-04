@@ -24,3 +24,17 @@ spec:
   values:
     speaker:
       ignoreExcludeLB: true
+  postRenderers:
+    # The statuscleaner runs with hostNetwork on port 19443. On a single node the
+    # default RollingUpdate (maxUnavailable rounds down to 0) deadlocks: the new
+    # pod cannot bind the port while the old one still holds it.
+    - kustomize:
+        patches:
+          - target:
+              kind: Deployment
+              name: metallb-frr-k8s-statuscleaner
+            patch: |
+              - op: replace
+                path: /spec/strategy
+                value:
+                  type: Recreate
