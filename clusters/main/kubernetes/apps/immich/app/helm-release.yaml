@@ -119,7 +119,7 @@ spec:
         server: ${TRUENAS_IP}
         mountPath: /usr/src/app/external/Lib1
         path: /mnt/MAIN/Pictures
-        readonly: true
+        readOnly: true
         targetSelector:
           # Main pod/container is server
           main:
