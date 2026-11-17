@@ -375,7 +375,7 @@ helm upgrade --install "$RELEASE_NAME" "$CHART_REF" \
   "${HELM_VALUES_ARGS[@]}" \
   --skip-crds \
   --wait \
-  --timeout 5m
+  --timeout 10m
 HELM_RC=$?
 set -e
 
