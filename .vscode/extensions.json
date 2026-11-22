@@ -1,7 +1,6 @@
 {
     "recommendations": [
         "albert.TabOut",
-        "mikestead.dotenv",
         "signageos.signageos-vscode-sops",
         "EditorConfig.editorconfig",
         "PKief.material-icon-theme",
