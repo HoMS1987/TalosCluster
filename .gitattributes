@@ -1,0 +1,3 @@
+# Keep LF line endings in the repo and in the working copy (matches .editorconfig),
+# also on Windows with core.autocrlf=true.
+* text=auto eol=lf

@@ -4,6 +4,8 @@
     },
     "sops.defaults.ageKeyFile": "age.agekey",
     "yaml.schemas": {
+        // Flux Kustomization schema for every ks.yaml
+        "https://k8s-schemas.home-operations.com/kustomize.toolkit.fluxcd.io/kustomization_v1.json": "clusters/**/ks.yaml",
         // Generic Flux HelmRelease schema for every HelmRelease (checks the HelmRelease, not the values)
         "https://k8s-schemas.home-operations.com/helm.toolkit.fluxcd.io/helmrelease_v2.json": "clusters/**/helm-release.yaml",
         // TrueCharts HelmRelease schema, versioned by the common library (includes the Flux schema
