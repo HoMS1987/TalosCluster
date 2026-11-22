@@ -81,9 +81,13 @@ jobs:
         env:
           # renovate: datasource=docker depName=ghcr.io/renovatebot/renovate
           RENOVATE_VERSION: 44.257.9
+        # The glob is expanded by the runner's shell, so expand it inside .github where the
+        # files are; from the repo root it would stay a literal "renovate/*.json5".
+        working-directory: .github
         run: |
-          docker run --rm -v "$PWD/.github:/cfg:ro" -w /cfg "ghcr.io/renovatebot/renovate:${RENOVATE_VERSION}" \
-            renovate-config-validator --strict --no-global renovate.json5 renovate/*.json5
+          files=(renovate.json5 renovate/*.json5)
+          docker run --rm -v "$PWD:/cfg:ro" -w /cfg "ghcr.io/renovatebot/renovate:${RENOVATE_VERSION}" \
+            renovate-config-validator --strict --no-global "${files[@]}"
 
   # The same hooks as the local git hook (whitespace, final newline, YAML syntax, merge
   # conflict markers). Fixes are not pushed: run `pre-commit run --all-files` and commit.
