@@ -7,4 +7,3 @@ machine:
       imageGCLowThresholdPercent: 30
       # Only collect images older than x minutes
       imageMinimumGCAge: "30m"
-      

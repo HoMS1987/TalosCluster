@@ -80,6 +80,7 @@ jobs:
             # Apps deployed directly by flux-entry (no ks.yaml of their own) are rendered
             # by flate without variable substitution, so substitute them up front
             yq '.data | to_entries | .[] | .key + "=" + .value' "$file" > "$RUNNER_TEMP/dummy.env"
+            # shellcheck disable=SC2016 # yq builds the literal "${VAR}" list for envsubst
             vars="$(yq '.data | keys | .[] | "${" + . + "}"' "$file" | tr '\n' ' ')"
             for release in $DIRECT_RELEASES; do
               [ -f "$side/$release" ] || continue

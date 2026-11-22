@@ -65,7 +65,7 @@ spec:
           - mountPath: /home/headlamp/.config/Headlamp/kubeconfigs
             name: kubeconfig
             readOnly: false
-  
+
     volumes:
       - name: kubeconfig
         emptyDir: {}
