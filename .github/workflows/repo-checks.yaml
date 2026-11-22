@@ -6,6 +6,7 @@ name: Repo Checks
 #   - actionlint: GitHub workflow files and the scripts they run
 #   - Renovate config: validated with the pinned Renovate version (the hosted Mend app
 #     does not expose its version, Renovate keeps this pin up to date)
+#   - pre-commit: the hooks of .pre-commit-config.yaml on all files (every PR)
 
 on:
   pull_request:
@@ -84,11 +85,30 @@ jobs:
           docker run --rm -v "$PWD/.github:/cfg:ro" -w /cfg "ghcr.io/renovatebot/renovate:${RENOVATE_VERSION}" \
             renovate-config-validator --strict --no-global renovate.json5 renovate/*.json5
 
+  # The same hooks as the local git hook (whitespace, final newline, YAML syntax, merge
+  # conflict markers). Fixes are not pushed: run `pre-commit run --all-files` and commit.
+  pre-commit:
+    name: pre-commit
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Setup pre-commit
+        env:
+          # renovate: datasource=pypi depName=pre-commit
+          PRE_COMMIT_VERSION: 4.7.0
+        run: pipx install "pre-commit==${PRE_COMMIT_VERSION}"
+      - name: Run pre-commit
+        run: pre-commit run --all-files --show-diff-on-failure --color always
+
   success:
     if: ${{ !cancelled() }}
     needs:
       - actionlint
       - renovate
+      - pre-commit
     name: Repo Checks - Success
     runs-on: ubuntu-latest
     steps:

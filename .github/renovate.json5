@@ -11,6 +11,10 @@
   pinDigests: true,
   separateMinorPatch: true,
   semanticCommits: 'enabled',
+  // Keep the hook versions in .pre-commit-config.yaml up to date (off by default in Renovate)
+  'pre-commit': {
+    enabled: true,
+  },
   suppressNotifications: [
     'prEditedNotification',
     'prIgnoreNotification',
