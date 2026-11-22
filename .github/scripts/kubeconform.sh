@@ -8,15 +8,16 @@ KUBERNETES_DIR=$1
 
 kustomize_args=("--load-restrictor=LoadRestrictionsNone")
 kustomize_config="kustomization.yaml"
+# No -ignore-missing-schemas: a kind without a schema fails, add it to -skip on purpose instead.
+# Secrets and ConfigMaps are skipped because the SOPS metadata fails strict validation.
 kubeconform_args=(
     "-strict"
-    "-ignore-missing-schemas"
     "-skip"
     "Secret,ConfigMap,tuppr.home-operations.com/v1alpha1/TalosUpgrade,tuppr.home-operations.com/v1alpha1/KubernetesUpgrade"
     "-schema-location"
     "default"
     "-schema-location"
-    "https://kubernetes-schemas.pages.dev/{{.Group}}/{{.ResourceKind}}_{{.ResourceAPIVersion}}.json"
+    "https://k8s-schemas.home-operations.com/{{.Group}}/{{.ResourceKind}}_{{.ResourceAPIVersion}}.json"
     "-verbose"
 )
 
