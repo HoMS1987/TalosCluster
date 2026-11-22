@@ -1,16 +1,42 @@
 {
     "files.associations": {
-        "*.json5": "jsonc",
-        "./kubernetes/**/*.sops.toml": "plaintext"
+        "*.json5": "json5"
     },
     "sops.defaults.ageKeyFile": "age.agekey",
     "yaml.schemas": {
-        "Kubernetes": "./kubernetes/*.yaml"
+        // Generic Flux HelmRelease schema for every HelmRelease (checks the HelmRelease, not the values)
+        "https://k8s-schemas.home-operations.com/helm.toolkit.fluxcd.io/helmrelease_v2.json": "clusters/**/helm-release.yaml",
+        // TrueCharts HelmRelease schema, versioned by the common library (includes the Flux schema
+        // and validates spec.values). Kept up to date by Renovate, see .github/renovate/truechartsSchema.json5.
+        // Applies to every helm-release.yaml, except the non-TrueCharts ones listed below:
+        // add new non-TrueCharts HelmReleases here.
+        // A "# yaml-language-server: $schema=..." comment inside a file overrides this mapping.
+        "https://truecharts.org/schemas/helm-release/30.4.5.schema.json": [
+            "clusters/**/helm-release.yaml",
+            "!clusters/main/kubernetes/core/blocky-ui/app/helm-release.yaml",
+            "!clusters/main/kubernetes/kube-system/cilium/app/helm-release.yaml",
+            "!clusters/main/kubernetes/kube-system/descheduler/app/helm-release.yaml",
+            "!clusters/main/kubernetes/kube-system/metrics-server/app/helm-release.yaml",
+            "!clusters/main/kubernetes/kube-system/node-feature-discovery/app/helm-release.yaml",
+            "!clusters/main/kubernetes/networking/nginx-external/app/helm-release.yaml",
+            "!clusters/main/kubernetes/networking/nginx-internal/app/helm-release.yaml",
+            "!clusters/main/kubernetes/observability/headlamp/app/helm-release.yaml",
+            "!clusters/main/kubernetes/observability/kube-prometheus-stack/app/helm-release.yaml",
+            "!clusters/main/kubernetes/system/cert-manager/app/helm-release.yaml",
+            "!clusters/main/kubernetes/system/cloudnative-pg/app/helm-release.yaml",
+            "!clusters/main/kubernetes/system/longhorn/app/helm-release.yaml",
+            "!clusters/main/kubernetes/system/metallb/app/helm-release.yaml",
+            "!clusters/main/kubernetes/system/nvidia-device-plugin/app/helm-release.yaml",
+            "!clusters/main/kubernetes/system/openebs/app/helm-release.yaml",
+            "!clusters/main/kubernetes/system/system-upgrade/tuppr/app/helm-release.yaml"
+        ]
     },
     "terminal.integrated.profiles.linux": {
-        "bash": {
-          "path": "/usr/bin/fish"
+        "fish": {
+            "path": "/usr/bin/fish"
         }
-      },
-    "terminal.integrated.defaultProfile.linux": "fish"
+    },
+    "terminal.integrated.defaultProfile.linux": "fish",
+    "editor.tabSize": 2,
+    "editor.detectIndentation": false
 }

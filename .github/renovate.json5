@@ -25,5 +25,6 @@
     'github>HoMS1987/TalosCluster//.github/renovate/groups.json5',
     'github>HoMS1987/TalosCluster//.github/renovate/customVersioning.json5',
     'github>HoMS1987/TalosCluster//.github/renovate/talos.json5',
+    'github>HoMS1987/TalosCluster//.github/renovate/truechartsSchema.json5',
   ],
 }
