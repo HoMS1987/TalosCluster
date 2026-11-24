@@ -1,13 +1,13 @@
+# Follows the TrueCharts clustertool template
+# (embed/generic/kubernetes/apps/system/cnpg-system/plugin-barman-cloud).
+# Deviation: the plugin must run in the operator's namespace, which is cloudnative-pg here, not cnpg-system.
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
   name: plugin-barman-cloud
-  # Must run in the namespace of the CloudNativePG operator
   namespace: cloudnative-pg
 spec:
-  interval: 5m
-  # The plugin registers with the CNPG operator and gets its TLS certificates from cert-manager.
-  # Waits for both HelmReleases to be Ready, not only applied (the Kustomizations have no wait)
+  interval: 1h
   dependsOn:
     - name: cloudnative-pg
     - name: cert-manager
@@ -20,15 +20,6 @@ spec:
         kind: HelmRepository
         name: cloudnative-pg
         namespace: flux-system
-      interval: 5m
-  install:
-    crds: CreateReplace
-    remediation:
-      retries: 3
-  upgrade:
-    crds: CreateReplace
-    remediation:
-      retries: 3
   values:
     crds:
       create: true
