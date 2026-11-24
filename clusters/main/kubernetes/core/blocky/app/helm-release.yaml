@@ -9,7 +9,7 @@ spec:
   chart:
     spec:
       chart: blocky
-      version: 24.5.1
+      version: 25.0.0
       sourceRef:
         kind: HelmRepository
         name: truecharts
@@ -37,6 +37,16 @@ spec:
     # and/or disable its service
     global:
       stopAll: false
+    dependencies:
+      postgresql:
+        depconfig:
+          password: ${POSTGRES_PW}
+        operator:
+          # common-2026: stay on 16 for the chart move, upgrade to 18 in a separate step
+          pgVersion: 16
+      valkey:
+        depconfig:
+          password: ${VALKEY_PW}
     ingress:
       main:
         enabled: true

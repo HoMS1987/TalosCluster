@@ -83,8 +83,8 @@ spec:
             logSources:
               postgres:
                 type: postgresql
-                # Connection URL is read from the mounted CNPG secret (key "std")
-                target: file:/secrets/db/std
+                # Connection URL is read from the mounted creds secret of the blocky release (key "url")
+                target: file:/secrets/db/url
             instanceName: Blocky
 
     persistence:
@@ -96,7 +96,7 @@ spec:
             readOnly: true
       db:
         type: secret
-        name: blocky-cnpg-main-urls
+        name: blocky-postgresqlcreds
         globalMounts:
           - path: /secrets/db
             readOnly: true
