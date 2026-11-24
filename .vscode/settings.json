@@ -26,6 +26,7 @@
             "!clusters/main/kubernetes/observability/kube-prometheus-stack/app/helm-release.yaml",
             "!clusters/main/kubernetes/system/cert-manager/app/helm-release.yaml",
             "!clusters/main/kubernetes/system/cloudnative-pg/app/helm-release.yaml",
+            "!clusters/main/kubernetes/system/cloudnative-pg-barman-cloud/app/helm-release.yaml",
             "!clusters/main/kubernetes/system/longhorn/app/helm-release.yaml",
             "!clusters/main/kubernetes/system/metallb/app/helm-release.yaml",
             "!clusters/main/kubernetes/system/nvidia-device-plugin/app/helm-release.yaml",
