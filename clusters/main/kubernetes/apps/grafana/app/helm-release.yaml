@@ -27,6 +27,13 @@ spec:
   values:
     global:
       stopAll: false
+    dependencies:
+      postgresql:
+        depconfig:
+          password: ${POSTGRES_PW}
+        operator:
+          # common-2026: stay on 16 for the chart move, upgrade to 18 in a separate step
+          pgVersion: 16
     ingress:
       main:
         enabled: true
@@ -42,11 +49,16 @@ spec:
             paths:
               - path: /
                 pathType: Prefix
+    # The admin password lives in the chart's env-secrets, which the main container
+    # and the provisioning sidecars (REQ_PASSWORD) both read
+    secret:
+      env-secrets:
+        data:
+          GF_SECURITY_ADMIN_PASSWORD: ${GRAFANA_ADMIN_PW}
     workload:
       main:
         podSpec:
           containers:
             main:
               env:
-                GF_SECURITY_ADMIN_PASSWORD: ${GRAFANA_ADMIN_PW}
                 GF_SECURITY_ADMIN_USER: ${GRAFANA_ADMIN}
