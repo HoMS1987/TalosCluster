@@ -80,7 +80,7 @@ jobs:
       - name: Validate Renovate config
         env:
           # renovate: datasource=docker depName=ghcr.io/renovatebot/renovate
-          RENOVATE_VERSION: 44.261.0
+          RENOVATE_VERSION: 44.261.1
         # The glob is expanded by the runner's shell, so expand it inside .github where the
         # files are; from the repo root it would stay a literal "renovate/*.json5".
         working-directory: .github
