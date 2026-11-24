@@ -38,25 +38,32 @@ spec:
         accessKey: "${CLOUDFLARE_BUCKET_ACCESS_KEY}"
         secretKey: "${CLOUDFLARE_BUCKET_SECRET_KEY}"
         encrKey: "${CLOUDFLARE_BUCKET_ENCR_KEY}"
-    cnpg:
-      main:
-        password: ${POSTGRES_PW}
-        cluster:
-          singleNode: true
-        mode: recovery
-        backups:
-          enabled: true
-          revision: "1"
-          credentials: cloudflare
-          scheduledBackups:
-            - name: daily-backup
-              schedule: "0 15 4 * * *"
-              backupOwnerReference: self
-              immediate: true
-              suspend: false
-        recovery:
-          method: object_store
-          credentials: cloudflare
+    dependencies:
+      postgresql:
+        depconfig:
+          password: ${POSTGRES_PW}
+        operator:
+          # common-2026: stay on 16 for the chart move, upgrade to 18 in a separate step
+          pgVersion: 16
+          cluster:
+            singleNode: true
+          mode: recovery
+          backups:
+            enabled: true
+            revision: "1"
+            credentials: cloudflare
+            scheduledBackups:
+              - name: daily-backup
+                schedule: "0 15 4 * * *"
+                backupOwnerReference: self
+                immediate: true
+                suspend: false
+          recovery:
+            method: object_store
+            credentials: cloudflare
+      valkey:
+        depconfig:
+          password: ${VALKEY_PW}
     immich:
       log_level: debug
     ingress:
