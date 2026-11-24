@@ -194,10 +194,22 @@ if yq -e '
   changed=true
 fi
 
-# Remove cnpg for ephemeral CI cluster
+# Remove cnpg for ephemeral CI cluster (charts before common-2026)
 if yq -e 'has("cnpg")' "$VALUES_FILE" >/dev/null 2>&1; then
   yq -i 'del(.cnpg)' "$VALUES_FILE"
   echo "      ⚠️ CNPG removed for CI"
+  changed=true
+fi
+
+# common-2026: the CI cluster has no object store and no Barman Cloud plugin,
+# so the CNPG cluster starts empty instead of backing up or recovering
+if yq -e '.dependencies.postgresql.operator | has("backups") or has("recovery") or .mode == "recovery"' "$VALUES_FILE" >/dev/null 2>&1; then
+  yq -i '
+    del(.dependencies.postgresql.operator.backups) |
+    del(.dependencies.postgresql.operator.recovery) |
+    del(.dependencies.postgresql.operator.mode)
+  ' "$VALUES_FILE"
+  echo "      ⚠️ CNPG backups and recovery removed for CI"
   changed=true
 fi
 
