@@ -44,6 +44,10 @@ dummyEnv:
   CLOUDFLARE_BUCKET_SECRET_KEY: dummy
   CLOUDFLARE_BUCKET_ENCR_KEY: dummy
   POSTGRES_PW: dummy
+  VALKEY_PW: dummy-ci-valkey-password
+  KITCHENOWL_JWT_SECRET: dummy-ci-secret-0123456789abcdefghijklmnopqrstuvwxyz
+  PAPERLESS_SECRET_KEY: dummy-ci-secret-0123456789abcdefghijklmnopqrstuvwxyz
+  MESHCENTRAL_SESSION_KEY: dummy-ci-secret-0123456789abcdefghijklmnopqrstuvwxyz
   DDNS_UPDATER_TOKEN: dummy
   DDNS_UPDATER_ZONE_IDENTIFIER: dummy
   FRESHRSS_HOMEPAGE_KEY: dummy
