@@ -6,6 +6,12 @@ metadata:
   namespace: cloudnative-pg
 spec:
   interval: 5m
+  # The plugin registers with the CNPG operator and gets its TLS certificates from cert-manager.
+  # Waits for both HelmReleases to be Ready, not only applied (the Kustomizations have no wait)
+  dependsOn:
+    - name: cloudnative-pg
+    - name: cert-manager
+      namespace: cert-manager
   chart:
     spec:
       chart: plugin-barman-cloud

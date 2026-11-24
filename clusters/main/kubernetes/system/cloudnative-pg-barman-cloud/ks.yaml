@@ -4,10 +4,6 @@ metadata:
   name: cloudnative-pg-barman-cloud
   namespace: flux-system
 spec:
-  # The plugin registers with the CNPG operator and gets its TLS certificates from cert-manager
-  dependsOn:
-    - name: cloudnative-pg
-    - name: cert-manager
   interval: 10m
   path: clusters/main/kubernetes/system/cloudnative-pg-barman-cloud/app
   prune: true
