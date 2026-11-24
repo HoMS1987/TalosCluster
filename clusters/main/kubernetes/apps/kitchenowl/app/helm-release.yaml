@@ -28,6 +28,9 @@ spec:
   values:
     global:
       stopAll: false
+    kitchenowl:
+      # common-2026 no longer generates the JWT signing key
+      jwtSecretKey: ${KITCHENOWL_JWT_SECRET}
     credentials:
       cloudflare:
         type: s3
@@ -63,22 +66,26 @@ spec:
             enabled: true
             trigger:
               schedule: 50 3 * * *
-    cnpg:
-      main:
-        password: ${POSTGRES_PW}
-        cluster:
-          singleNode: true
-        mode: recovery
-        backups:
-          enabled: true
-          revision: "1"
-          credentials: cloudflare
-          scheduledBackups:
-            - name: daily-backup
-              schedule: "0 55 3 * * *"
-              backupOwnerReference: self
-              immediate: true
-              suspend: false
-        recovery:
-          method: object_store
-          credentials: cloudflare
+    dependencies:
+      postgresql:
+        depconfig:
+          password: ${POSTGRES_PW}
+        operator:
+          # common-2026: stay on 16 for the chart move, upgrade to 18 in a separate step
+          pgVersion: 16
+          cluster:
+            singleNode: true
+          mode: recovery
+          backups:
+            enabled: true
+            revision: "1"
+            credentials: cloudflare
+            scheduledBackups:
+              - name: daily-backup
+                schedule: "0 55 3 * * *"
+                backupOwnerReference: self
+                immediate: true
+                suspend: false
+          recovery:
+            method: object_store
+            credentials: cloudflare
