@@ -289,6 +289,12 @@ grep -q "cert-manager.io" "$RENDERED" && [[ "$CHART_NAME" != "cert-manager" ]] &
 grep -q "monitoring.coreos.com" "$RENDERED" && install_prometheus=true
 grep -q "metallb.io" "$RENDERED" && install_metallb=true
 
+# Barman needs both operators running to use its CNPG integration and TLS certificates (as in clustertool)
+if [[ "$CHART_NAME" == "plugin-barman-cloud" ]]; then
+  install_cnpg=true
+  install_certmanager=true
+fi
+
 echo "🔎 Dependencies:"
 echo "     CNPG:        $install_cnpg"
 # echo "     VolSync:     $install_volsync"
