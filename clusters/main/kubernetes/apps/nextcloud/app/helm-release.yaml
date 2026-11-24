@@ -9,7 +9,7 @@ spec:
     spec:
       # renovate: registryUrl=https://charts.truechartsoci.org
       chart: nextcloud
-      version: 49.2.15
+      version: 50.0.0
       sourceRef:
         kind: HelmRepository
         name: truecharts
@@ -59,25 +59,32 @@ spec:
             paths:
               - path: /
                 pathType: Prefix
-    cnpg:
-      main:
-        password: ${POSTGRES_PW}
-        cluster:
-          singleNode: true
-        mode: recovery
-        backups:
-          enabled: true
-          revision: "1"
-          credentials: cloudflare
-          scheduledBackups:
-            - name: daily-backup
-              schedule: "0 5 0 * * *"
-              backupOwnerReference: self
-              immediate: true
-              suspend: false
-        recovery:
-          method: object_store
-          credentials: cloudflare
+    dependencies:
+      postgresql:
+        depconfig:
+          password: ${POSTGRES_PW}
+        operator:
+          # common-2026: stay on 16 for the chart move, upgrade to 18 in a separate step
+          pgVersion: 16
+          cluster:
+            singleNode: true
+          mode: recovery
+          backups:
+            enabled: true
+            revision: "1"
+            credentials: cloudflare
+            scheduledBackups:
+              - name: daily-backup
+                schedule: "0 5 0 * * *"
+                backupOwnerReference: self
+                immediate: true
+                suspend: false
+          recovery:
+            method: object_store
+            credentials: cloudflare
+      valkey:
+        depconfig:
+          password: ${VALKEY_PW}
     persistence:
       config:
         volsync:
