@@ -13,7 +13,7 @@
         // Applies to every helm-release.yaml, except the non-TrueCharts ones listed below:
         // add new non-TrueCharts HelmReleases here.
         // A "# yaml-language-server: $schema=..." comment inside a file overrides this mapping.
-        "https://truecharts.org/schemas/helm-release/30.4.5.schema.json": [
+        "https://truecharts.org/schemas/helm-release/32.9.0.schema.json": [
             "clusters/**/helm-release.yaml",
             "!clusters/main/kubernetes/core/blocky-ui/app/helm-release.yaml",
             "!clusters/main/kubernetes/kube-system/cilium/app/helm-release.yaml",
