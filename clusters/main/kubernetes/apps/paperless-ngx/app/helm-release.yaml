@@ -8,7 +8,7 @@ spec:
   chart:
     spec:
       chart: paperless-ngx
-      version: 17.6.3
+      version: 19.1.0
       sourceRef:
         kind: HelmRepository
         name: truecharts
@@ -36,21 +36,36 @@ spec:
         accessKey: "${CLOUDFLARE_BUCKET_ACCESS_KEY}"
         secretKey: "${CLOUDFLARE_BUCKET_SECRET_KEY}"
         encrKey: "${CLOUDFLARE_BUCKET_ENCR_KEY}"
-    cnpg:
-      main:
-        password: ${POSTGRES_PW}
-        cluster:
-          singleNode: true
-        backups:
-          enabled: true
-          credentials: cloudflare
-          retentionPolicy: "7d"
-          scheduledBackups:
-            - name: daily-backup
-              schedule: "0 45 4 * * *"
-              backupOwnerReference: self
-              immediate: true
-              suspend: false
+    paperless:
+      # common-2026 no longer generates the Django secret key
+      secretKey: ${PAPERLESS_SECRET_KEY}
+    # Paperless (3.5.1) pins gotenberg-client 1.0.0, which still sends the form field "pdfa"
+    # that Gotenberg 9 rejects, so Office/mail conversion breaks (paperless-ngx#14839).
+    # Stay on Gotenberg 8 until a Paperless release supports 9.
+    gotenbergImage:
+      tag: 8.40@sha256:53073e798c8ef39ea2187e44cb67bab77894ea2509100b94c4fe3b461f7b2996
+    dependencies:
+      postgresql:
+        depconfig:
+          password: ${POSTGRES_PW}
+        operator:
+          # common-2026: stay on 16 for the chart move, upgrade to 18 in a separate step
+          pgVersion: 16
+          cluster:
+            singleNode: true
+          backups:
+            enabled: true
+            credentials: cloudflare
+            retentionPolicy: "7d"
+            scheduledBackups:
+              - name: daily-backup
+                schedule: "0 45 4 * * *"
+                backupOwnerReference: self
+                immediate: true
+                suspend: false
+      valkey:
+        depconfig:
+          password: ${VALKEY_PW}
     tika:
       enabled: true
     # Chart default (1500m / 2400Mi) gets OOM-killed when OCR rasterizes multi-page PDFs (OCR mode force)
