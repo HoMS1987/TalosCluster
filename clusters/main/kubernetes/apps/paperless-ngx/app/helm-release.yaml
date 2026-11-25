@@ -49,12 +49,12 @@ spec:
         depconfig:
           password: ${POSTGRES_PW}
         operator:
-          # common-2026: stay on 16 for the chart move, upgrade to 18 in a separate step
-          pgVersion: 16
           cluster:
             singleNode: true
           backups:
             enabled: true
+            # PostgreSQL 18 (pg_upgrade): new system ID and timeline, so a new archive
+            revision: "1"
             credentials: cloudflare
             retentionPolicy: "7d"
             scheduledBackups:
