@@ -100,6 +100,11 @@ spec:
         cert-manager.io/private-key-rotation-policy: Always
       ingressClassName: internal
       hosts:
+        # dashboard.* took over from the removed Kubernetes Dashboard; headlamp.* stays for old links
+        - host: dashboard.${DOMAIN_0}
+          paths:
+            - path: /
+              type: Prefix
         - host: headlamp.${DOMAIN_0}
           paths:
             - path: /
@@ -107,4 +112,5 @@ spec:
       tls:
         - secretName: headlamp-tls-0
           hosts:
+            - dashboard.${DOMAIN_0}
             - headlamp.${DOMAIN_0}
