@@ -35,6 +35,10 @@ spec:
           containers:
             main:
               env:
-                PLEX_TOKEN: ${PLEX_TOKEN}
                 PLEX_URL: https://${PLEX_PAL_URL}:32400
                 DEBUG: true
+    # The chart reads PLEX_TOKEN from this secret; keeps the token out of the Deployment spec
+    secret:
+      env-secrets:
+        data:
+          PLEX_TOKEN: ${PLEX_TOKEN}
