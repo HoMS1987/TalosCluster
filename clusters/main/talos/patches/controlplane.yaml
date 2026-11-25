@@ -10,6 +10,8 @@ cluster:
   controllerManager:
     extraArgs:
       bind-address: 0.0.0.0
+      # Default 12500 never triggers here; keeps job pods, clears leftovers after reboots
+      terminated-pod-gc-threshold: "100"
   # Lets kube-prometheus-stack scrape etcd (clustertool v4/v5 template default)
   etcd:
     extraArgs:
