@@ -64,14 +64,13 @@ spec:
         depconfig:
           password: ${POSTGRES_PW}
         operator:
-          # common-2026: stay on 16 for the chart move, upgrade to 18 in a separate step
-          pgVersion: 16
           cluster:
             singleNode: true
           mode: recovery
           backups:
             enabled: true
-            revision: "1"
+            # PostgreSQL 18 (pg_upgrade): new system ID and timeline, so a new archive
+            revision: "2"
             credentials: cloudflare
             scheduledBackups:
               - name: daily-backup
@@ -81,6 +80,8 @@ spec:
                 suspend: false
           recovery:
             method: object_store
+            # A rebuild restores from the current archive; bump backups.revision before it
+            revision: "2"
             credentials: cloudflare
       valkey:
         depconfig:
